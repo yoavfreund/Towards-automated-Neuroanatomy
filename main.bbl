@@ -1,0 +1,35 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{arthur2006k}
+Arthur, D., Vassilvitskii, S.: k-means++: The advantages of careful seeding.
+  Tech. rep., Stanford (2006)
+
+\bibitem{belkin2003}
+Belkin, M., Niyogi, P.: Laplacian eigenmaps for dimensionality reduction and
+  data representation. Neural computation  \textbf{15}(6),  1373--1396 (2003)
+
+\bibitem{chen2019active}
+Chen, Y., McElvain, L.E., Tolpygo, A.S., Ferrante, D., Friedman, B., Mitra,
+  P.P., Karten, H.J., Freund, Y., Kleinfeld, D.: An active texture-based
+  digital atlas enables automated mapping of structures and markers across
+  brains. Nature methods  \textbf{16}(4),  341--350 (2019)
+
+\bibitem{coifman2005geometric}
+Coifman, R.R., Lafon, S., Lee, A.B., Maggioni, M., Nadler, B., Warner, F.,
+  Zucker, S.W.: Geometric diffusions as a tool for harmonic analysis and
+  structure definition of data: Diffusion maps. Proceedings of the national
+  academy of sciences  \textbf{102}(21),  7426--7431 (2005)
+
+\bibitem{haghverdi2015diffusion}
+Haghverdi, L., Buettner, F., Theis, F.J.: Diffusion maps for high-dimensional
+  single-cell analysis of differentiation data. Bioinformatics
+  \textbf{31}(18),  2989--2998 (2015)
+
+\bibitem{otsu1979threshold}
+Otsu, N.: A threshold selection method from gray-level histograms. IEEE
+  transactions on systems, man, and cybernetics  \textbf{9}(1),  62--66 (1979)
+
+\end{thebibliography}
