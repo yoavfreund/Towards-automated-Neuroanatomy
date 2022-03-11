@@ -61,10 +61,10 @@
 \section{Main}
 
 \begin{enumerate}
-\item {\bf Significance for neuroanatomy}
-Does not have to be very details. Target audience is ML.
+\item {\bf Summary:} We propose a system for detecting anatomical structures in the mouse brain. Our system takes as input high-resolution images of aligned sections. It produces as output the estimated center of mass (COM) for each structure. Each detection is assigned a confidence. High confidence structures are associated with a visual explanation.
+\item {\bf Significance for Neuroanatomy}
+Does not have to be very detailed. Target audience is ML.
 \begin{itemize}
-
 \item Importance and History
 \item Manual detection of brain structures has two major drawbacks, the first is the amount of time needed by an anatomist. The second is inconsistencies between anatomists. Automatic detection has the potential of reducing the time and improving the consistency for this task.
 \item Challenges: Variability of images
@@ -73,7 +73,35 @@ Does not have to be very details. Target audience is ML.
         \item technical: staining, sectioning (mechanical, optical)
     \end{itemize}
 \end{itemize}
-\item {\bf Significance for Machine Learning} Black box approaches focus on finding an accurate end-to-end mapping. As such, these approaches are hard to interrogate when they fail. In contrast, we take a white-box approach which is based on cells as the basic unit. Doing so provides an explanation for the detector's decision. We use unsupervised learning to find a dimensionality reducing mapping for cell shapes. We make efficient use of manual annotations by estimating the shape of each structure from a few brains and anatomists. We leverage this information in the detector training by having the anatomist identify the location of the center of mass for each structure.
+\item {\bf Explainable AI} Black box approaches focus on finding an accurate end-to-end mapping. As such, these approaches are hard to interrogate when they fail. In contrast, we take an explainable-detector which allows the anatomist to understand {\em why} the ML made particular decisions. This benefits both sides ...
+
+\item{\bf Cell based approach}  Most CNN-based method of image analysis are based on the concept of a sliding window. This implies that any explanation provided by the CNN is based on the content of one or more windows. Windows need to be large enough to capture the image statistics. This means that a typical window contains 10-100 cells.
+On the other hand, anatomist base their analysis on cytoarchitecture, which, in turn, is based on the shapes of individual cells and the relationshp between them. This makes it harder for the anatomist to understand the decisions of the detector.
+
+To remedy this problem and make the detections explainable, we use individual cells as our basic unit. 
+\end{enumerate}
+
+\subsection{System design}
+
+The trained system is a collection of structure detectors. Each structure is a known anatomical entity. To train the detectors we combine three sources of information:
+\begin{itemize}
+    \item {\bf Images of aligned sections:} The Nissl images of XX brains are the primary information source. They are also by far the largest at XXX GB per brain.
+    \item {\bf The Atlas} is a representation of the shape of each structure and the relative locations of the structures. The atlas was constructed through a concensus ....
+    \item {\bf COMs for individual brains:} For XX brains we had an anatomist locate the COM ....
+\end{itemize}
+
+The overall design of the system is shown in Figure xxx
+\begin{enumerate}
+\item{\bf Dimensionality reduction}
+An image of a single cell is typically around 50$\times$50 pixels, or a 2500 dimensional vector. The dimension of this representation is too high for effective machine learning. We therefor seek a dimensionality reduction mapping. This mapping consists of three parts:
+\begin{enumerate}
+    \item {\bf Normalization:} We normalize the image of the cell in three ways. We 
+    shift the grey-levels so that the mean is XXX, scale the grey levels so that the standard deviation is YYY, and rotate the image so that the long axis of the cell is in angle zero. The three parameters associated with the normalizations define three features.
+    \item {\bf Standard shape features}: we use the Hu features: x,y,z...
+    \item{ \bf  Diffusion maps}: Diffusion Mapping~\cite{Belkin, Coifman} is a non-linear dimensionality reduction method that is based on a graphical representation of the data and on the Laplace operator on graphs. 
+\end{enumerate}
+
+which is based on cells as the basic unit. Doing so provides an explanation for the detector's decision. We use unsupervised learning to find a dimensionality reducing mapping for cell shapes. We make efficient use of manual annotations by estimating the shape of each structure from a few brains and anatomists. We leverage this information in the detector training by having the anatomist identify the location of the center of mass for each structure.
 \end{enumerate}
 \section{Results}
 \begin{itemize}
