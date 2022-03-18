@@ -6,6 +6,9 @@
 \usepackage{amssymb}
 \usepackage{arydshln}
 \usepackage{xcolor,ulem}
+
+\usepackage{wrapfig}
+
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
 %
@@ -48,8 +51,14 @@
   With new technology it is possible to image entire brains at high
   resolution.  However, manual identification of structures in these
   massive datasets is prohibitively time consuming.  We present a
-  machine learning method for automatic detection of brain structures. Our approach is based on diffusion maps, in combination with hand-picked features, and Adaboost for combining the features. Our method is robust against brain to brain variation and details of neuronal staining.
-  Our method produces structure detections together with their explanation. This  that the human anatomist and the computer interact to improve the detection of structures and the addition of new structures.
+  machine learning method for automatic detection of brain
+  structures. Our approach is based on diffusion maps, in combination
+  with hand-picked features, and Adaboost for combining the
+  features. Our method is robust against brain to brain variation and
+  details of neuronal staining.  Our method produces structure
+  detections together with their explanation. This that the human
+  anatomist and the computer interact to improve the detection of
+  structures and the addition of new structures.
   
   %We translate each cell image into a feature vector that
   %includes aspect ratio, orientation and area, as well as additional
@@ -59,10 +68,9 @@
 \end{abstract}
 
 \section{Main}
-
-\begin{enumerate}
-\item {\bf Summary:} We propose a system for detecting anatomical structures in the mouse brain. Our system takes as input high-resolution images of aligned sections. It produces as output the estimated center of mass (COM) for each structure. Each detection is assigned a confidence. High confidence structures are associated with a visual explanation.
-\item {\bf Significance for Neuroanatomy}
+\subsection{Summary}
+We propose a system for detecting anatomical structures in the mouse brain. Our system takes as input high-resolution images of aligned sections. It produces as output the estimated center of mass (COM) for each structure. Each detection is assigned a confidence. High confidence structures are associated with a visual explanation.
+\subsubsection {Significance for Neuroanatomy}
 Does not have to be very detailed. Target audience is ML.
 \begin{itemize}
 \item Importance and History
@@ -73,16 +81,23 @@ Does not have to be very detailed. Target audience is ML.
         \item technical: staining, sectioning (mechanical, optical)
     \end{itemize}
 \end{itemize}
-\item {\bf Explainable AI} Black box approaches focus on finding an accurate end-to-end mapping. As such, these approaches are hard to interrogate when they fail. In contrast, we take an explainable-detector which allows the anatomist to understand {\em why} the ML made particular decisions. This benefits both sides ...
+\subsubsection {Explainable AI} Black box approaches focus on finding an accurate end-to-end mapping. As such, these approaches are hard to interrogate when they fail. In contrast, we take an explainable-detector which allows the anatomist to understand {\em why} the ML made particular decisions. This benefits both sides ...
 
-\item{\bf Cell based approach}  Most CNN-based method of image analysis are based on the concept of a sliding window. This implies that any explanation provided by the CNN is based on the content of one or more windows. Windows need to be large enough to capture the image statistics. This means that a typical window contains 10-100 cells.
+\begin{wrapfigure}{R}{0.65\textwidth}
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/Training.pdf}
+  \caption{Training \label{fig:training}}
+\end{wrapfigure}
+
+\subsubsection{Cell based approach}  Most CNN-based method of image
+analysis are based on the concept of a sliding window. This implies
+that an
+y explanation provided by the CNN is based on the content of one or more windows. Windows need to be large enough to capture the image statistics. This means that a typical window contains 10-100 cells.
 On the other hand, anatomist base their analysis on cytoarchitecture, which, in turn, is based on the shapes of individual cells and the relationshp between them. This makes it harder for the anatomist to understand the decisions of the detector.
 
 To remedy this problem and make the detections explainable, we use individual cells as our basic unit. 
-\end{enumerate}
 
-\subsection{System design}
-
+\subsection{Experimental design}
 The trained system is a collection of structure detectors. Each structure is a known anatomical entity. To train the detectors we combine three sources of information:
 \begin{itemize}
     \item {\bf Images of aligned sections:} The Nissl images of XX brains are the primary information source. They are also by far the largest at XXX GB per brain.
@@ -90,19 +105,19 @@ The trained system is a collection of structure detectors. Each structure is a k
     \item {\bf COMs for individual brains:} For XX brains we had an anatomist locate the COM ....
 \end{itemize}
 
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{figures/Training.pdf}
-  \caption{Training}
-\end{figure}
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{figures/detection.pdf}
-  \caption{Detection}
-\end{figure}
+\subsection{System design}
 
-The overall design of the system is shown in Figure xxx
+% \begin{wrapfigure}[t]{R}{0.6\textwidth}
+%    \centering
+%    \includegraphics[width=0.5\textwidth]{figures/detection.pdf}
+%   \caption{Training \label{fig:train}}
+% \end{wrapfigure}
+The overall design of the system is shown in Figure~\ref{fig:train}.
+The main components of our system are the following (details and
+descriptions of the smaller components are given in the methods
+section)
 
-\begin{enumerate}
-\item{\bf Dimensionality reduction}
+\subsubsection{ Dimensionality reduction} 
 An image of a single cell is typically around 50$\times$50 pixels, or a 2500 dimensional vector. The dimension of this representation is too high for effective machine learning. We therefor seek a dimensionality reduction mapping. This mapping consists of three parts:
 \begin{enumerate}
     \item {\bf Normalization:} We normalize the image of the cell in three ways. We 
@@ -113,13 +128,12 @@ An image of a single cell is typically around 50$\times$50 pixels, or a 2500 dim
       is based on a graphical representation of the data and on the
       Laplace operator on graphs.
       \end{enumerate}
-\item{\bf Characterizing Cytoarchitecture} uses Difference between the CDFs for inside and outside of each structure (based on manually annotated structure boundaries). 
-\item {\bf Structure detectors} Combine the difference-of-CDF features using boosted trees (XGBoost). Each structure has a corresponding detector.
-\item {\bf Structure detection confidence} The confidence of structure
+\subsubsection{ Characterizing Cytoarchitecture} uses Difference between the CDFs for inside and outside of each structure (based on manually annotated structure boundaries). 
+\subsubsection { Structure detectors} Combine the difference-of-CDF features using boosted trees (XGBoost). Each structure has a corresponding detector.
+\subsubsection { Structure detection confidence} The confidence of structure
   detections is measured by the prediction margin and by the sharpness
   of the detection peak.
-  \item {\bf Structure detection explanation}
-\end{enumerate}
+\subsubsection { Structure detection explanation}
 
 \iffalse
 which is based on cells as the basic unit. Doing so provides an explanation for the detector's decision. We use unsupervised learning to find a dimensionality reducing mapping for cell shapes. We make efficient use of manual annotations by estimating the shape of each structure from a few brains and anatomists. We leverage this information in the detector training by having the anatomist identify the location of the center of mass for each structure.
@@ -137,6 +151,21 @@ which is based on cells as the basic unit. Doing so provides an explanation for 
 
 \end{itemize}
 
+\section{Methods}
+In this section we provide more details on the algorithms we use in
+our system. The full code is available from github...
+
+\begin{itemize}
+\item Cell based features.
+\item Diffusion mapping.
+\item Calibration of the diffusion features.
+\item Region features and CDFs.
+\item Boosting and XGBoost.
+\item Localizing structures. Rough alignment, computing detections
+  scores, computing autocorrelation and asigning confidence.
+\item Using the system for brain-to-atlas alignment.
+\item Generating explanations.
+\end{itemize}
 
 \iffalse
 \section{writeup from 2022/01/21}

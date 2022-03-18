@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  11 MAR 2022 10:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  18 MAR 2022 11:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -300,42 +300,50 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 Package: ulem 2019/11/18
 \ULdepth=\dimen178
 )
+(/usr/local/texlive/2020/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen179
+\WF@size=\dimen180
+\c@WF@wrappedlines=\count294
+\WF@box=\box99
+\WF@everypar=\toks29
+Package: wrapfig 2003/01/31  v 3.6
+)
 (/usr/local/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
 File: l3backend-pdfmode.def 2020-03-12 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count294
-\l__pdf_internal_box=\box99
+\l__kernel_color_stack_int=\count295
+\l__pdf_internal_box=\box100
 )
 (./New_main.aux)
 \openout1 = `New_main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
 
 (/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count295
-\scratchdimen=\dimen179
-\scratchbox=\box100
-\nofMPsegments=\count296
-\nofMParguments=\count297
-\everyMPshowfont=\toks29
-\MPscratchCnt=\count298
-\MPscratchDim=\dimen180
-\MPnumerator=\count299
-\makeMPintoPDFobject=\count300
-\everyMPtoPDFconversion=\toks30
+\scratchcounter=\count296
+\scratchdimen=\dimen181
+\scratchbox=\box101
+\nofMPsegments=\count297
+\nofMParguments=\count298
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count299
+\MPscratchDim=\dimen182
+\MPnumerator=\count300
+\makeMPintoPDFobject=\count301
+\everyMPtoPDFconversion=\toks31
 ) (/usr/local/texlive/2020/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -345,73 +353,81 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Font Info:    Trying to load font information for U+msa on input line 42.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 45.
 
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 42.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 45.
 
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
-
-{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+)
 
 pdfTeX warning: pdflatex (file ./figures/Training.pdf): PDF inclusion: found PD
 F version <1.7>, but at most version <1.5> allowed
-<figures/Training.pdf, id=12, 984.9822pt x 407.96706pt>
+<figures/Training.pdf, id=1, 984.9822pt x 407.96706pt>
 File: figures/Training.pdf Graphic file (type pdf)
 <use figures/Training.pdf>
-Package pdftex.def Info: figures/Training.pdf  used on input line 94.
-(pdftex.def)             Requested size: 347.12354pt x 143.77417pt.
+Package pdftex.def Info: figures/Training.pdf  used on input line 88.
+(pdftex.def)             Requested size: 208.27623pt x 86.26076pt.
+[1
 
-
-pdfTeX warning: pdflatex (file ./figures/detection.pdf): PDF inclusion: found P
-DF version <1.7>, but at most version <1.5> allowed
-<figures/detection.pdf, id=13, 680.73543pt x 509.70442pt>
-File: figures/detection.pdf Graphic file (type pdf)
-<use figures/detection.pdf>
-Package pdftex.def Info: figures/detection.pdf  used on input line 98.
-(pdftex.def)             Requested size: 347.12354pt x 259.9147pt.
-[2 <./figures/Training.pdf>]
-
-LaTeX Warning: Citation `Belkin' on page 3 undefined on input line 112.
-
-
-LaTeX Warning: Citation ` Coifman' on page 3 undefined on input line 112.
-
-
-Overfull \hbox (0.79335pt too wide) in paragraph at lines 117--118
-[]\OT1/cmr/bx/n/10 Structure de-tec-tors \OT1/cmr/m/n/10 Com-bine the differenc
-e-of-CDF fea-tures us-ing boosted
+{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \hbox (badness 1803) in paragraph at lines 92--97
+[] \OT1/cmr/bx/n/10 Cell based ap-proach[]
  []
 
 
-Underfull \vbox (badness 6252) has occurred while \output is active []
+Underfull \hbox (badness 6625) in paragraph at lines 92--97
+\OT1/cmr/m/n/10 of im-age anal-y-sis are
+ []
 
- [3 <./figures/detection.pdf>] [4] (./New_main.aux) ) 
+
+Underfull \hbox (badness 1661) in paragraph at lines 92--97
+\OT1/cmr/m/n/10 a slid-ing win-dow. This
+ []
+
+
+Underfull \hbox (badness 1205) in paragraph at lines 92--97
+\OT1/cmr/m/n/10 na-tion pro-vided by the
+ []
+
+
+LaTeX Warning: Reference `fig:train' on page 2 undefined on input line 115.
+
+[2 <./figures/Training.pdf>]
+
+LaTeX Warning: Citation `Belkin' on page 3 undefined on input line 127.
+
+
+LaTeX Warning: Citation ` Coifman' on page 3 undefined on input line 127.
+
+[3] [4] (./New_main.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 3470 strings out of 480608
- 43971 string characters out of 5903631
- 295109 words of memory out of 5000000
- 19338 multiletter control sequences out of 15000+600000
+ 3532 strings out of 480608
+ 44680 string characters out of 5903631
+ 296333 words of memory out of 5000000
+ 19397 multiletter control sequences out of 15000+600000
  536268 words of font info for 40 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 32i,6n,37p,469b,291s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2020/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2020/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2020/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2020/texmf
--dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2020/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2020/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on New_main.pdf (4 pages, 3693981 bytes).
+ 32i,6n,37p,469b,231s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></
+usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
+r/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/l
+ocal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on New_main.pdf (4 pages, 1893882 bytes).
 PDF statistics:
- 188 PDF objects out of 1000 (max. 8388607)
- 156 compressed objects within 2 object streams
+ 114 PDF objects out of 1000 (max. 8388607)
+ 92 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
