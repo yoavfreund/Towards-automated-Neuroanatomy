@@ -24,7 +24,9 @@
 \newcommand{\comment}[3]{{\color{#1} {\bf #2 :} #3}}
 %\newcommand{\comment}[3]{}  % suppress comments
 \newcommand{\kui}[1]{\comment{blue}{Kui}{#1}}
-\newcommand{\yoav}[1]{\comment{red}{Yoav}{#1}}
+\newcommand{\yoav}[1]{\comment{purple}{Yoav}{#1}}
+\renewcommand{\beth}[1]{\comment{red}{Beth}{#1}}
+\newcommand{\david}[1]{\comment{cyan}{David}{#1}}
 
 \renewcommand\floatpagefraction{.99}
 \renewcommand\topfraction{.99}
@@ -68,9 +70,13 @@
 \end{abstract}
 
 \section{Main}
-\subsection{Summary}
-We propose a system for detecting anatomical structures in the mouse brain. Our system takes as input high-resolution images of aligned sections. It produces as output the estimated center of mass (COM) for each structure. Each detection is assigned a confidence. High confidence structures are associated with a visual explanation.
-\subsubsection {Significance for Neuroanatomy}
+
+\yoav{A comment by yoav}
+\beth{a comment by beth}
+
+\begin{enumerate}
+\item {\bf Summary:} We propose a system for detecting anatomical structures in the mouse brain. Our system takes as input high-resolution images of aligned sections. It produces as output the estimated center of mass (COM) for each structure. Each detection is assigned a confidence. High confidence structures are associated with a visual explanation.
+\item {\bf Significance for Neuroanatomy}
 Does not have to be very detailed. Target audience is ML.
 \begin{itemize}
 \item Importance and History
@@ -96,28 +102,34 @@ y explanation provided by the CNN is based on the content of one or more windows
 On the other hand, anatomist base their analysis on cytoarchitecture, which, in turn, is based on the shapes of individual cells and the relationshp between them. This makes it harder for the anatomist to understand the decisions of the detector.
 
 To remedy this problem and make the detections explainable, we use individual cells as our basic unit. 
+\end{enumerate}
 
-\subsection{Experimental design}
-The trained system is a collection of structure detectors. Each structure is a known anatomical entity. To train the detectors we combine three sources of information:
+\section{System design}
+
+The trained system is a collection of structure detectors. Each structure is a known anatomical entity. 
+
+The overall design of the system is shown in Figure xxx. The system can be partitioned into two parts. The training algorithm and the trained detector.
+
+\subsection{System Inputs}
+To train the detectors we combine three sources of information:
 \begin{itemize}
     \item {\bf Images of aligned sections:} The Nissl images of XX brains are the primary information source. They are also by far the largest at XXX GB per brain.
     \item {\bf The Atlas} is a representation of the shape of each structure and the relative locations of the structures. The atlas was constructed through a concensus ....
     \item {\bf COMs for individual brains:} For XX brains we had an anatomist locate the COM ....
 \end{itemize}
 
-\subsection{System design}
+\subsection{System components}
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{figures/Training.pdf}
+  \caption{Training}
+\end{figure}
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{figures/detection.pdf}
+  \caption{Detection}
+\end{figure}
 
-% \begin{wrapfigure}[t]{R}{0.6\textwidth}
-%    \centering
-%    \includegraphics[width=0.5\textwidth]{figures/detection.pdf}
-%   \caption{Training \label{fig:train}}
-% \end{wrapfigure}
-The overall design of the system is shown in Figure~\ref{fig:train}.
-The main components of our system are the following (details and
-descriptions of the smaller components are given in the methods
-section)
-
-\subsubsection{ Dimensionality reduction} 
+\begin{enumerate}
+\item{\bf Cell extraction and shape parametrization}
 An image of a single cell is typically around 50$\times$50 pixels, or a 2500 dimensional vector. The dimension of this representation is too high for effective machine learning. We therefor seek a dimensionality reduction mapping. This mapping consists of three parts:
 \begin{enumerate}
     \item {\bf Normalization:} We normalize the image of the cell in three ways. We 
@@ -427,4 +439,4 @@ We have demonstrated the ability of our method in structure detection taking the
 \fi
 
 \end{document}
-\end{document}
+
