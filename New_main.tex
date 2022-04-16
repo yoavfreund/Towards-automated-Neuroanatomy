@@ -75,7 +75,18 @@
 \beth{a comment by beth}
 
 \begin{enumerate}
-\item {\bf Summary:} We propose a system for detecting anatomical structures in the mouse brain. Our system takes as input high-resolution images of aligned sections. It produces as output the estimated center of mass (COM) for each structure. Each detection is assigned a confidence. High confidence structures are associated with a visual explanation.
+\item {\bf Summary:} We propose a system for assisting the neuroanatomist
+  with tasks of detecting and localizing structures and cells within the mouse
+  brainstem. We consider two tasks, the first is localizing the center
+  of mass of structures in the brain-stem. The second is localizing
+  marked cells.
+  Our system takes as input high-resolution images of aligned
+  sections. Each detection is assigned a confidence. High
+  confidence structures are associated with a visual explanation.
+  We demonstrate that for both tasks our system is able
+  to accurately and confidently localize most of the targets, thereby
+  significantly decreasing the anatomist work load.
+
 \item {\bf Significance for Neuroanatomy}
 Does not have to be very detailed. Target audience is ML.
 \begin{itemize}
@@ -86,14 +97,55 @@ Does not have to be very detailed. Target audience is ML.
         \item biology: animal to animal, gender, generally alien across species, transgenic (differentions to genome due to gene expression)
         \item technical: staining, sectioning (mechanical, optical)
     \end{itemize}
-\end{itemize}
-\subsubsection {Explainable AI} Black box approaches focus on finding an accurate end-to-end mapping. As such, these approaches are hard to interrogate when they fail. In contrast, we take an explainable-detector which allows the anatomist to understand {\em why} the ML made particular decisions. This benefits both sides ...
+  \end{itemize}
+  
+\subsubsection{Explainable AI} The traditional vision for AI is to design
+an algorithm which can perform as well as, and hopefully better than
+an expert human. The explosive growth in machine-learning based AI is
+evidence that this vision is becoming a reality.
 
-\begin{wrapfigure}{R}{0.65\textwidth}
-  \centering
-  \includegraphics[width=0.6\textwidth]{figures/Training.pdf}
-  \caption{Training \label{fig:training}}
-\end{wrapfigure}
+Indeed, in some domains, such as the game of go \cite{} deep neural
+networks have achieved super-human capabilities. On the other hand, in
+domains that involve images of organic phenomena, expert-level
+experience is hard to achieve. This stems from two main reasons.
+
+The first reason is the high variability of the data. Images
+of brain slices vary significantly because of animal to animal
+variability and because of variability in the preparation process,
+including staining, sectioning and imaging. This variability between
+domains has become an important direction of deep learning under
+titles such as domain adaptation~\cite{wang2018deep} and transfer
+learning~\cite{weiss2016survey}. The research in this area is very
+active, however, the conclusion from meta-analysis efforts such as
+iWilds~\cite{} indicate that the problem remains a difficult one.
+
+The second reason is the variability between labelers. In other words,
+different experts, working independently, sometimes provide different
+labels. This is especially the case when the label is an annotation
+such as the boundary of a structure. Data about such variability is
+not easy to come by. Significant disagreement levels are well known in
+medical diagnostics and are studied under the title ``inter-rater
+variability''~\cite{gellhorn2013inter}. As can be expected, the level
+of disagreement varies from task to task. Some annotation tasks are
+``easy'' and result in annotations that are very similar, while others
+are ``hard'' and result in highly varying annotations.
+
+Our system is based on the distinction between easy and hard
+instances. With each detection it associates a numeric measure of
+``confidence''.
+
+
+in the labeling between different anatomists. When the variation
+between anatomist is large the meaning of ``better than human''
+becomes less clear.
+
+
+black-box approaches to computer vision
+are often sensitive to small changes in the way images are acquired.
+
+In the context of section based neuroanatomy such changes include
+variability in staining, sectioning and slicing.
+vary.
 
 \subsubsection{Cell based approach}  Most CNN-based method of image
 analysis are based on the concept of a sliding window. This implies
@@ -140,7 +192,8 @@ An image of a single cell is typically around 50$\times$50 pixels, or a 2500 dim
       is based on a graphical representation of the data and on the
       Laplace operator on graphs.
       \end{enumerate}
-\subsubsection{ Characterizing Cytoarchitecture} uses Difference between the CDFs for inside and outside of each structure (based on manually annotated structure boundaries). 
+\end{enumerate}
+      \subsubsection{ Characterizing Cytoarchitecture} uses Difference between the CDFs for inside and outside of each structure (based on manually annotated structure boundaries). 
 \subsubsection { Structure detectors} Combine the difference-of-CDF features using boosted trees (XGBoost). Each structure has a corresponding detector.
 \subsubsection { Structure detection confidence} The confidence of structure
   detections is measured by the prediction margin and by the sharpness
@@ -178,265 +231,6 @@ our system. The full code is available from github...
 \item Using the system for brain-to-atlas alignment.
 \item Generating explanations.
 \end{itemize}
-
-\iffalse
-\section{writeup from 2022/01/21}
-The disagreements on anatomical classification implies the need to a metric of confidence on the detection and characterization of brain structures.
-The difficulty or ease of detecting a structure is variable. 
-In any particular brain, some structures are detected consistently by anatomists while others are not.
-The challenge in making the system usable to the anatomists is first to automatically detect structures and second, to provide an explanation for its detections and an associated confidence.
-
-Our goal in the design of the system is to create models of the brain
-that can be explained to, and modified by, anatomists. In other words,
-we take a white box, rather than a black box approach.
-
-This impacts the design in several important ways. First, image
-analysis methods in general, and CNNs in particular, are based on
-concept of a sliding window. In other words, the basic unit of
-analysis is a rectangular area, whose location is indpendent of the
-content of the image. In contrast our analysis unit is the image of a
-single cell.~\footnote{When cells are overlapping we sometimes get
-  the image of several scells as the unit.} By annotating cells we
-visually explain to the anatomist the basis for the computer's
-decision.
-
-Second, we represent each cell by a set of features. the basic 
-features are size, aspect ratio, and orientation. To characterize the
-cell shape beyond these basic features, we use an unsupervised
-learning method to find a dimensionality reducing mapping from cell
-image to ten additional parameters. We demonstrate that this
-unsupervised method provides a consistent parameterization across
-brains and across imaging modalities.
-
-Third, explaining structure detection (xxxx).
-
-
-
-\section{Adaptive parametrization of cell shapes}
-\label{sec:DM}
-In this section we describe the two main technical contributions of this
-paper: a method for learning a cell-shape feature-set that is optimized
-for a particular brain, and a method for mapping between feature-sets
-from different brains. Both methods are {\em unsupervised}, in other
-words, the input to these methods are sets of sections with no
-annotation or alignment.
-
-The first step is to segment individual cells from the section
-image. For this we use a locally adaptive variant of
-Otsu's method~\cite{otsu1979threshold}. This step is not perfect, over and under segmentations are
-common. However, our method relies on the statistical properties for
-many cells, which greatly reduces the sensitivity of the analysis to
-segmentation errors. 
-Cell patches are typically $50\times 50$ pixels which is a highly
-redundant representation. The second step is to
-map the cell image to a less redundant low-dimensional representation. Our goal here
-is to find a small set of features (10) that represent shapes of cells
-from a given brain. Our learned features provide a better representation 
-of cells shapes which contrast with the feature extraction stage in~\cite{chen2019active}, 
-which uses a pre-trained CNN (Inception-BN). 
-
-
-We use Diffusion Maps
-(DM)~\cite{belkin2003,coifman2005geometric}~\footnote{{\tt
-    https://github.com/DiffusionMapsAcademics/pyDiffMap}} to find a
-low dimensional representation of cell shapes. While DM has gained
-popularity in many applications, the only work we are aware of
-regarding the use of DM for cell shape analysis is in the context of
-differentiation lineages~\cite{haghverdi2015diffusion}.
-The public implementation of DM is excellent. However, it is limited to datasets that
-fit in computer memory. As we typically extract from each brain
-hundreds of millions of cells, we need an efficient way to create a
-small number of representative patches.  We use a streaming version of
-the Kmeans++~\cite{arthur2006k} seeding algorithm followed with a few
-iterations of Kmeans. Figure~\ref{fig:kmeans} shows samples of the
-original cell images and of cells after normalizing
-rotation, Kmeans++ and Kmeans averaging.
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{Images/CellImages.png}
-\caption{{\bf (a)} a sample of Cell patches,
-  {\bf (b)}  a sample of the orientation-normalized, Kmeans-reduced and averaged cell images.}
-\label{fig:kmeans}
-\end{figure}
-
-DM~\cite{coifman2005geometric} creates a continuous
-non-linear mapping from single cell patches into a ten component
-feature vector. The ten components correspond to ten most dominant
-(lowest non-zero eigenvalue) eigen-vectors of the Laplace-Beltrami
-operator. We conceptualize the DM of a population of cells as
-a ten dimensional cloud of patches, each patch placed at the location
-defined by the corresponding feature vector. By projecting this cloud
-onto a two dimensional plane, we generate a visualization of the patch
-cloud (see figure~\ref{fig:diffusionmap}).
-
-After inspecting patch clouds from several brains, it became clear
-that the clouds corresponding to different brains are similar. More
-precisely, the clouds all have similar shapes when projected on
-different planes, but the order of and orientation can be
-different. This gave us the idea that there might be a single {\em
-  universal} set of features, such that one can map the shape-features from
-any brain to this universal set of features.
-
-Such a universal set of features provides several benefits. First, it
-provides a way to visualize the difference between regions in terms of
-the density, types and orientations of cells. This gives
-the anatomist a way to understand the decisions made by the computer
-and potentially correct them. This is in contrast with black box
-methods such as deep neural networks which provide no explanations of
-their decisions.
-
-\begin{figure} [t]
-  \includegraphics[width=\textwidth]{Images/Scatter.png}
-\label{fig:diffusionmap}
-\caption{{\bf Projecting the patch cloud and universal features}. This
-  figure demonstrates the continuous mapping generated by DM. {\bf
-    (a)} shows the projection of two patch clouds on the first and
-  fourth eigenvectors produced by DM. The red patches correspond to
-  cells stained by Thionin and imaged using brightfield, the blue
-  patches correspond to cells stained with Neurotrace blue and imaged
-  using fluorescent imaging. The brightfield cloud has been
-  transformed to match the fluorescent cloud. Observe that the shape
-  of the clouds match closely. Further, the insets show that the cell
-  shapes match as well.  {\bf (b)} corresponds to very
-  small cells. {\bf (c)} correspond to large and round cells, and {\bf
-    (d)} correspond to thin cells or a row  of 2-3 cells.}
-\end{figure}
-Second, using a universal set of features decouples any downstream processing from
-variations in section preparation and imaging. Such decoupling is particularly
-valuable when switching between different imaging modalities such as
-fluorescence vs. brightfield. In the next section we show that
-structure Detection benefits from the universal set of features.
-
-After the transformation to universal features, patch clouds from
-different imaging modalities overlap almost perfectly. This is
-demonstrated in figure~\ref{fig:diffusionmap}. 
-The transformations we used to between patch clouds are simple affine
-transformations. To find a good transformation between two clouds we
-use a simple RMS-based formulation (details in Appendix A). The
-important thing is that this transformation, like DM, is
-unsupervised. All that is needed are the two DM feature vectors and
-the cell patches. The result is an unsupervised learning method for
-learning features. The first step is DM and the second step is finding
-a transformation from the generated feature set to a universal feature
-set.
-
-\section{Supervised Learning}
-
-\section{Computer generated suggestions of new landmarks}
-
- \bibliographystyle{splncs04}
- \bibliography{Reference}
-
-\appendix
-
-%\section{Experimental setup}
-%Brightfield brain images are from sectioned brains of P56, male
-%C57BL/6 mice with a thicknesses of microns and a 0.46-micron
-%resolution. The Nissl substance were stained by thionin, which
-%highlights neural textures across brains. These stained objects were
-%segmented by OpenCV into units called as cells in this paper. We then
-%normalized cells by padding them into patches with three sizes of
-%large, medium and small.
-
-\section{Transformation between Diffusion Maps}
-\subsection{Problem Description and Solution}
-The mathematical formulation of finding a linear transformation between two different diffusion maps can be described as follows: Given a set of vector pairs $(a_1,b_1),\ldots,(a_n,b_n)$ where each of the vectors $a_i,b_i$ are in a $d$ dimensional space $R^d$,  find an offset vector $\mu \in r^d$ and a linear transformation $M$ which is a $d \times d$ matrix so that the following cost function is minimized:
-
-\begin{equation}
-\label{cost_function}
-    cost(\mu, M) = \frac{1}{n}\sum_{i=1}^n||\mu + Ma_i - b_i||_2^2
-\end{equation}
-
-We first compute the hessian matrix of ~\ref{cost_function} with respect to $\mu$ and $M$ to see if the problem can be directly solved.
-\begin{equation}
-\label{hessian_1}
-    \frac{\partial^2 cost(\mu, M)}{\partial \mu \partial \mu^T} = 2I \rightarrow p.d
-\end{equation}
-\begin{equation}
-\label{hessian_2}
-    \frac{\partial^2 cost(\mu, M)}{\partial M \partial M^T} = \frac{2}{n}\sum_{i=1}^na_ia_i^T \rightarrow p.s.d
-\end{equation}
-
-The results show that both hessian matrices are Positive Semi-definite matrices and thus we can find the solution by setting derivatives to 0. We have:
-\begin{equation}
-    (\frac{1}{n}\sum_{i=1}^na_ia_i^T - \frac{1}{n}\sum_{i=1}^na_i\times \frac{1}{n}\sum_{i=1}^na_i^T)M^T = \frac{1}{n}\sum_{i=1}^na_ib_i^T - \frac{1}{n}\sum_{i=1}^na_i\times \frac{1}{n}\sum_{i=1}^nb_i^T
-\end{equation}
-
-
-
-
-%\subsection{Cost Function}
-%\begin{equation*}
-%\begin{aligned}
-%    cost(\mu, M) = \frac{1}{n}\sum_{i=1}^n||\mu + Ma_i - b_i||_2^2 = \frac{1}{n}\sum_{i=1}^n(\mu + Ma_i - b_i)^T(\mu + Ma_i - b_i) \\
-%    = \mu^T\mu + 2\mu^TM\frac{1}{n}\sum_{i=1}^na_i - 2\mu^T\frac{1}{n}\sum_{i=1}^nb_i + \frac{1}{n}\sum_{i=1}^na_i^TM^TMa_i - \frac{2}{n}\sum_{i=1}^na_i^TM^Tb_i + \frac{1}{n}\sum_{i=1}^nb_i^Tb_i
-%\end{aligned}
-%\end{equation*}
-%
-%\subsection{Derivative}
-%\begin{equation*}
-%    \frac{\partial cost(\mu, M)}{\partial \mu} = 2\mu^T + \frac{2}{n}\sum_{i=1}^na_i^TM^T - \frac{2}{n}\sum_{i=1}^nb_i^T
-%\end{equation*}
-%\begin{equation*}
-%    \frac{\partial cost(\mu, M)}{\partial M} = \frac{2}{n}\sum_{i=1}^na_i\mu^T + \frac{2}{n}\sum_{i=1}^na_ia_i^TM^T - \frac{2}{n}\sum_{i=1}^na_ib_i^T
-%\end{equation*}
-%
-%\subsection{Hessian}
-%\begin{equation*}
-%    \frac{\partial^2 cost(\mu, M)}{\partial \mu \partial \mu^T} = 2I \rightarrow p.d
-%\end{equation*}
-%\begin{equation*}
-%    \frac{\partial^2 cost(\mu, M)}{\partial M \partial M^T} = \frac{2}{n}\sum_{i=1}^na_ia_i^T \rightarrow p.s.d
-%\end{equation*}
-%
-%\subsection{Results}
-%Let $\frac{\partial cost(\mu, M)}{\partial \mu} = 0$, we have:
-%\begin{equation*}
-%    2\mu^T + \frac{2}{n}\sum_{i=1}^na_i^TM^T - \frac{2}{n}\sum_{i=1}^nb_i^T = 0
-%\end{equation*}
-%\begin{equation}
-%    \mu^T = \frac{1}{n}\sum_{i=1}^nb_i^T-\frac{1}{n}\sum_{i=1}^na_i^TM^T
-%\end{equation}
-%
-%Let $\frac{\partial cost(\mu, M)}{\partial M} = 0$, we have:
-%\begin{equation*}
-%    \frac{2}{n}\sum_{i=1}^na_i\mu^T + \frac{2}{n}\sum_{i=1}^na_ia_i^TM^T - \frac{2}{n}\sum_{i=1}^na_ib_i^T = 0
-%\end{equation*}
-%\begin{equation}
-%    \frac{1}{n}\sum_{i=1}^na_i\mu^T = \frac{1}{n}\sum_{i=1}^na_ib_i^T - \frac{1}{n}\sum_{i=1}^na_ia_i^TM^T
-%\end{equation}
-%
-%Put (6) into (7), we have:
-%\begin{equation*}
-%    (\frac{1}{n}\sum_{i=1}^na_ia_i^T - \frac{1}{n}\sum_{i=1}^na_i\times \frac{1}{n}\sum_{i=1}^na_i^T)M^T = \frac{1}{n}\sum_{i=1}^na_ib_i^T - \frac{1}{n}\sum_{i=1}^na_i\times \frac{1}{n}\sum_{i=1}^nb_i^T
-%\end{equation*}
-
-\section{Pseudo-code for Finding Significant Regions}
-\begin{enumerate}
-  \item Calculate the statistical significance map of the whole 3D shape relative to the background as $Mask$. Traverse the whole shape with a cube (200 microns cubed) by a step size of 100 microns.
-  \item Define $M$ to mark regions in the 2D shape and $R$ to record cubes of each region.
-  \item Find seeds and expand them to foreground regions according the following rules:
-  		\begin{itemize}
-			 \item Find the cube with the highest KS significance in $Mask$ of unmarked regions ($M==0$) as the seed. Append that cube to a list of potential starting cubes $C$.
-			 \item Pop one starting cube from $C$. Starting from the chosen cube, slide by a stride of half window size to get 8-connected neighborhood cubes as foreground candidates.
- 			 \item The foreground candidates are added to the foreground and the list $C$ if $dist(x,S_B )>\alpha \cdot dist(x,S_F)$ where $S_F$ represents the CDFs of cells in the foreground and $S_B$ represents the CDFs of cells in the background. $\alpha$ is set to be 3.
-			 \item Repeat the above two steps until the list $C$ is empty.
-		\end{itemize}
-  \item Find 100 regions via 200 micron cubed seeds, then find 30 regions via 100 micron cubed seeds.
-  \item After finding regions, for pairs of regions in $R$:
- 		 \begin{itemize}
-			 \item If more than 80\% of a region $A$ is covered by another one $B$, then $A$ is merged to $B$.
-			 \item If A and B have intersection areas, A and B are merged together if $dist(A,B)<threshold $ else, $A\cup B$ belongs to A if $dist(A\cup B,A)<dist(A\cup B,B)$ otherwise belongs to B.
-		\end{itemize}
-\end{enumerate}
-
-\section{List of Additional Images}
-We have demonstrated the ability of our method in structure detection taking the 6N/R structure as example. Images of two other structures are also provided.
-\begin{enumerate}
-\item \texttt{5N\underline{{ }}L.png}: Detection figure for the 5N/L structure
-\item \texttt{5N\underline{{ }}R.png}: Detection figure for the 5N/R structure
-\end{enumerate}
-
-\fi
 
 \end{document}
 
