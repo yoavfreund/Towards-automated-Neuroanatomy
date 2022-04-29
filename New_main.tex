@@ -38,7 +38,7 @@
 \setlength{\abovecaptionskip}{0pt}
 \setlength{\belowcaptionskip}{0pt}
 
-\title{Towards explainable automated Neuroanatomy}
+\title{Towards explainable semi-automated Neuroanatomy}
 \author{Kui Qian, Zhongkai Wu, Beth Friedman, David Kleinfeld, Yoav Freund}
 \date{January 2022}
 
@@ -159,6 +159,12 @@ To remedy this problem and make the detections explainable, we use individual ce
 \section{System design}
 
 The trained system is a collection of structure detectors. Each structure is a known anatomical entity. 
+\begin{wrapfigure}{R}{0.6\textwidth}
+\centering
+\includegraphics[width=0.5\textwidth]{figures/detection.pdf}
+\caption{Detection \label{fig:detect}}
+\end{wrapfigure}
+
 
 The overall design of the system is shown in Figure xxx. The system can be partitioned into two parts. The training algorithm and the trained detector.
 
@@ -171,14 +177,6 @@ To train the detectors we combine three sources of information:
 \end{itemize}
 
 \subsection{System components}
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{figures/Training.pdf}
-  \caption{Training}
-\end{figure}
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{figures/detection.pdf}
-  \caption{Detection}
-\end{figure}
 
 \begin{enumerate}
 \item{\bf Cell extraction and shape parametrization}
@@ -194,10 +192,21 @@ An image of a single cell is typically around 50$\times$50 pixels, or a 2500 dim
       \end{enumerate}
 \end{enumerate}
       \subsubsection{ Characterizing Cytoarchitecture} uses Difference between the CDFs for inside and outside of each structure (based on manually annotated structure boundaries). 
-\subsubsection { Structure detectors} Combine the difference-of-CDF features using boosted trees (XGBoost). Each structure has a corresponding detector.
+\subsubsection { Structure detectors} Combine the difference-of-CDF
+features using boosted trees (XGBoost). Each structure has a
+corresponding detector.
+
 \subsubsection { Structure detection confidence} The confidence of structure
   detections is measured by the prediction margin and by the sharpness
   of the detection peak.
+\begin{wrapfigure}{R}{0.65\textwidth}
+\centering
+\includegraphics[width=0.6\textwidth]{figures/Training.pdf}
+\caption{Training \label{fig:training}}
+\end{wrapfigure}
+
+
+
 \subsubsection { Structure detection explanation}
 
 \iffalse
@@ -232,5 +241,38 @@ our system. The full code is available from github...
 \item Generating explanations.
 \end{itemize}
 
+\section{Unplaced figures}
+
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{figures/DetectionConfidenceVsError.png}
+  \caption{}
+\end{figure}
+
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{figures/DetectionsExplanations.png}
+  \caption{}
+\end{figure}
+
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{figures/MarkedCellsDetectionNumbers.png}
+  \caption{}
+\end{figure}
+
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{figures/Marked_cell_detections.png}
+  \caption{}
+\end{figure}
+
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{figures/RoughVSDEtection.png}
+  \caption{}
+\end{figure}
+
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{figures/ScoresOfStructures.png}
+  \caption{}
+\end{figure}
+
 \end{document}
+
 
