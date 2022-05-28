@@ -143,18 +143,21 @@ An image of a single cell is typically around 50$\times$50 pixels, or a 2500 dim
   of the detection peak.
 \subsubsection { Structure detection explanation}
 
+
 \iffalse
 which is based on cells as the basic unit. Doing so provides an explanation for the detector's decision. We use unsupervised learning to find a dimensionality reducing mapping for cell shapes. We make efficient use of manual annotations by estimating the shape of each structure from a few brains and anatomists. We leverage this information in the detector training by having the anatomist identify the location of the center of mass for each structure.
 \fi
 \section{Results}
 \begin{itemize}
     \item Detection results, with confidence levels, consistency with Beth.
+    \yoav{A lot of stuff here. Detection accuracy and confidence table, full table will probably go in the appendix, the figure of improvement. Relationship between beth, rough alignment and detection.}
     \item {\bf Explaining detections} The explanation of the detection is expressed in terms of cells whose shape gives evidence to the structure.
+    \yoav{Put here an image consisting of 2/3 detection explanations to show the explanation power. Specifically, there is a structure we detect well even though in different brains the contrast and brightness are very different}
 \item {\bf Cell shape parametrization} Uses a combination of Hu moments and dimensionality reduction using eigen-maps.
 \begin{itemize}
     \item Eigen-maps learn a dimensionality reducing mapping cell shape to a ten dimensional representation.
-    As it is an unsupervised method it requires no human labeling. We take advantage of the very large number of cells in single brain.
-    \item Each brain creates a different mapping, however, the mappings can be made consistent by adding a linear transformation. This creates a stable parametrization and makes the detections more consistent.
+    As it is an unsupervised method it requires no human labeling. We take advantage of the very large number of cells in single brain. 
+    \item Each brain creates a different mapping, however, the mappings can be made consistent by adding a linear transformation. This creates a stable parametrization and makes the detections more consistent.\yoav{scatter-plots of cell images. after transformation. Figure explaining transformation.}
 \end{itemize}
 
 \end{itemize}
@@ -174,6 +177,12 @@ our system. The full code is available from github...
 \item Using the system for brain-to-atlas alignment.
 \item Generating explanations.
 \end{itemize}
+
+\section{Detecting marked cells}
+
+William to put the latest table here. and write a paragraph explaining the table.
+
+Also, if not yet done, count false detections that result from an error in the exact location as "approximate detection".
 
 \iffalse
 \section{writeup from 2022/01/21}

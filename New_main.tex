@@ -71,17 +71,19 @@
 
 \section{Main}
 
-\yoav{A comment by yoav}
-\beth{a comment by beth}
+\yoav{A comment by yoav}, 
+\beth{a comment by beth},
+\david{a comment by david}
 
 \begin{enumerate}
-\item {\bf Summary:} We propose a system for assisting the neuroanatomist
-  with tasks of detecting and localizing structures and cells within the mouse
-  brainstem. We consider two tasks, the first is localizing the center
-  of mass of structures in the brain-stem. The second is localizing
-  marked cells.
+\item {\bf Summary:} We propose a system for assisting a neuroanatomist
+  with tasks of detecting and localizing structures and cells within the mouse brainstem. Our system supports two tasks, the first is localizing the center of mass of structures in the brain-stem. The second is localizing marked cells.
+  
   Our system takes as input high-resolution images of aligned
-  sections. Each detection is assigned a confidence. High
+  sections and anatomical annotations generated manually that are used as training data for a machine learning (ML) algorithm. The ML algorithm 
+  
+  \yoav{working here}
+  Each detection is assigned a confidence. High
   confidence structures are associated with a visual explanation.
   We demonstrate that for both tasks our system is able
   to accurately and confidently localize most of the targets, thereby
@@ -117,7 +119,7 @@ domains has become an important direction of deep learning under
 titles such as domain adaptation~\cite{wang2018deep} and transfer
 learning~\cite{weiss2016survey}. The research in this area is very
 active, however, the conclusion from meta-analysis efforts such as
-iWilds~\cite{} indicate that the problem remains a difficult one.
+iWilds~\cite{}, \david{please add an explaination that iWilds enforces the notion that changes in distribution statistics will confound results} indicate that the problem remains a difficult one.
 
 The second reason is the variability between labelers. In other words,
 different experts, working independently, sometimes provide different
