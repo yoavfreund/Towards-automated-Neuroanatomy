@@ -185,8 +185,6 @@ corresponding detector.
 \caption{Training \label{fig:training}}
 \end{wrapfigure}
 
-
-
 \subsubsection { Structure detection explanation}
 
 \iffalse
