@@ -49,20 +49,26 @@
 \maketitle
 
 \begin{abstract}
-  A fundamental goal of neuroanatomy is the identification of brain
-  structures.  Manual identification of structures is based on the
-  spatial distribution of cell shape, size, orientation and density.
-  With new technology it is possible to image entire brains at high
-  resolution.  However, manual identification of structures in these
-  massive datasets is prohibitively time consuming.  We present a
-  machine learning method for automatic detection of brain
-  structures. Our approach is based on diffusion maps, in combination
-  with hand-picked features, and Adaboost for combining the
-  features. Our method is robust against brain to brain variation and
-  details of neuronal staining.  Our method produces structure
-  detections together with their explanation. This that the human
-  anatomist and the computer interact to improve the detection of
-  structures and the addition of new structures.
+  A fundamental goal of neuroanatomy is the annotation of cells and
+  structures.  Manual annotation of structures is based on the spatial
+  distribution of cell shape, size, orientation and density.  New
+  technology rapid imaging of entire brains at high resolution.
+  However, manual identification of structures in these massive
+  datasets is prohibitively time consuming.  We present a machine
+  learning methodology for developing digital assistants that
+  significantly reduce the labor of the anatomist while improving the
+  consistency of the annotation.
+
+  Our methodology is based on designing, for each annotation problem,
+  a large number of features and using boosting on manually annotated
+  images to select the most predictive features.
+
+  We describe two annotation tasks to which we applied this approach.
+  The first, more complex task is detecting specific structures in the
+  brainstem of the mouse. The second is the detection of individual cells marked
+  by a fluorescent dye. We provide the details of both of these
+  applications and show that they significantly reduce the anatomist's
+  labor in completing these tasks.
   
   %We translate each cell image into a feature vector that
   %includes aspect ratio, orientation and area, as well as additional
@@ -86,34 +92,59 @@ Does not have to be very detailed. Target audience is ML.
     \end{itemize}
   \end{itemize}
   
-\subsubsection{Explainable AI} The traditional vision for AI is to design
+\subsubsection{Assistive AI} The traditional vision for AI is to design
 an algorithm which can perform as well as, and hopefully better than
 an expert human. The explosive growth in machine-learning based AI is
 evidence that this vision is becoming a reality.
 
 Indeed, in some domains, such as the game of go \cite{} deep neural
-networks have achieved super-human capabilities. On the other hand, in
-domains that involve images of organic phenomena, expert-level
-experience is hard to achieve. This stems from two main reasons.
+networks (DNN)  have achieved super-human capabilities. In addition,
+on highly curated image classification datasets such as ImageNet~\cite{} and
+CIFAR~\cite{} DNNs give performance that, some argue, is better than
+human. However, there are some significant issues with the application
+of DNN to real-world problems 
 
-The first reason is the high variability of the data. Images
-of brain slices vary significantly because of animal to animal
-variability and because of variability in the preparation process,
-including staining, sectioning and imaging. This variability between
-domains has become an important direction of deep learning under
-titles such as domain adaptation~\cite{wang2018deep} and transfer
-learning~\cite{weiss2016survey}. The research in this area is very
-active, however, the conclusion from meta-analysis efforts such as
-iWilds~\cite{}, \david{please add an explaination that iWilds enforces the notion that changes in distribution statistics will confound results} indicate that the problem remains a difficult one.
+However, on uncurated datasets, such as the ones in the Wilds
+repository~\cite{wilds, web-site}, performance is much poorer.  A
+fundamental problem is that DNNs require large amounts of training
+data and this training data is assumed to be IID~\footnote{Data is IID
+  (Identically and Independently Distributed) if it can be modeled as
+  independent draws from a fixed distribution.}  Unfortunately real
+world large dataset are often an aggregations of data from different
+sources and therefor fail the IID assumption. Specifically, in brain imaging,
+two brain sections from the same location in different brains are
+likely to look quite differently.  These images vary
+because of animal to animal variability and because of
+variability in the preparation process, including staining, sectioning
+and imaging. In order to create robust classifiers, that do not need
+to be retrained on each brain, we need a learning algorithm that
+identifies robust patterns that are preserved across brains.
+identifies patterns that are consistent across significant variations
+in the images.  The development of learning algorithms that are robust
+with respect to the nuisance variations from brain to brain.
 
-The second reason is the variability between labelers. In other words,
-different experts, working independently, sometimes provide different
-labels. This is especially the case when the label is an annotation
-such as the boundary of a structure. Data about such variability is
-not easy to come by. Significant disagreement levels are well known in
-medical diagnostics and are studied under the title ``inter-rater
-variability''~\cite{gellhorn2013inter}. As can be expected, the level
-of disagreement varies from task to task. Some annotation tasks are
+A second issue that is the variability between labelers. In other
+words, different experts, working independently, sometimes provide
+different labels. This is especially the case when annotating the
+boundary of a structure.  Data regarding such variability is not easy
+to come by because it requires that several anatomists independently
+annotate the same images.  Significant disagreement levels are well
+known in medical diagnostics and are studied under the title
+``inter-rater variability''~\cite{gellhorn2013inter}. As can be
+expected, the level of disagreement varies from structure to structure
+and from cell to cell. Some structures are easy to identify and have
+high inter-rater agreement. Other are hard and can result in
+disagreements that remain even the different raters discuss the case.
+
+A disagreement on the correct annotation of a specific structure or
+cell puts in question the notion of a ``ground truth'', and,
+consequently, the accuracy of a classifier.
+
+
+
+
+
+
 ``easy'' and result in annotations that are very similar, while others
 are ``hard'' and result in highly varying annotations.
 
