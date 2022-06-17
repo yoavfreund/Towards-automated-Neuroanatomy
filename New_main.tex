@@ -79,9 +79,57 @@
 
 \section{Main}
 \subsection{Summary}
-We propose a system for detecting anatomical structures in the mouse brain. Our system takes as input high-resolution images of aligned sections. It produces as output the estimated center of mass (COM) for each structure. Each detection is assigned a confidence. High confidence structures are associated with a visual explanation.
+We propose a system for detecting anatomical structures in the mouse
+brain. Our system takes as input high-resolution images of aligned
+sections. It produces as output the estimated center of mass (COM) for
+each structure. Each detection is assigned a confidence. High
+confidence structures are associated with a visual explanation.
+
 \subsubsection {Significance for Neuroanatomy}
-Does not have to be very detailed. Target audience is ML.
+~\\ ~\\
+{\bf David and Beth, please expand on the following bullets:}
+\begin{itemize}
+\item What is Neuroanatomy?
+  \item Why is Neuroanatomy important (in the context of the great
+    advancements in imaging and recording technology)
+\item Why is Neuroanatomy hard? (requires a lot of training, the
+  number of trained neuroanatomist is small.)
+\item An estimate of the amount of manual labor required to achieve
+  common tasks.
+\end{itemize}
+
+% Manual neuroanatomical analysis of brain sections is critical for
+% creating accurate quantitative results. On the other hand, performing
+% neuroanatomical analysis is expensive as it requires many hours of
+% work of an expert anatomist.
+
+We consider two labor intensive tasks. Localizing anatomical structure
+and counting marked cells. Both tasks involve identifying and marking
+locations in images and both require expertise.
+
+A rather obvious but important observation is that while a typical
+section will contain hard to identify locations, most of the locations
+are easy, in the sense that a person with lesser traing can identify
+them reliably.
+
+This observation leads to the following approach to automation. We
+use so-called {\em confidence rated detectors}. These detectors
+associate with each detection a confidence score. A high confidence
+score implies that the example is ``easy''  while the rest are
+``hard''. This reduces the workload on the anatomist to the following
+tasks:
+\begin{itemize}
+  \item {\bf Confirming the confident detections} In this step the
+    anatomist recieves a small sample of the confident detections and
+    verifies that they are correct. The sample size depends on the
+    desired accuracy.
+    \item {\bf classifiying the unconfident detections} In this step
+      the anatomist labels {\em all} of the low confident predictions.
+    \item {\bf searching for misses:} In this step the anatomist looks
+      for locations that were completely missed by te detector.
+  \end{itemize}
+
+{\bf Old itemized list}\\
 \begin{itemize}
 \item Importance and History
 \item Manual detection of brain structures has two major drawbacks, the first is the amount of time needed by an anatomist. The second is inconsistencies between anatomists. Automatic detection has the potential of reducing the time and improving the consistency for this task.
