@@ -152,19 +152,19 @@ CIFAR~\cite{} DNNs give performance that, some argue, is better than
 human. However, there are some significant issues with the application
 of DNN to real-world problems 
 
-However, on uncurated datasets, such as the ones in the Wilds
-repository~\cite{wilds, web-site}, performance is much poorer.  A
-fundamental problem is that DNNs require large amounts of training
-data and this training data is assumed to be IID~\footnote{Data is IID
-  (Identically and Independently Distributed) if it can be modeled as
-  independent draws from a fixed distribution.}  Unfortunately real
-world large dataset are often an aggregations of data from different
-sources and therefor fail the IID assumption. Specifically, in brain imaging,
-two brain sections from the same location in different brains are
-likely to look quite differently.  These images vary
-because of animal to animal variability and because of
-variability in the preparation process, including staining, sectioning
-and imaging. In order to create robust classifiers, that do not need
+However, performance on many real world problems the performance of learning algorithms is significantly worse that that of an expert human. There are several reasons for that:
+\begin{enumerate}
+    \item {\bf Scarcity of training labels} Machine Learning algorithms can be roughly divided into supervised and unsupervised learning. Supervised learning algorithms typically require labeled examples, which, in turn, require large amounts of expert manual labels. Manual labeling by experts is often the limiting factor on the accuracy of the learned model.
+    \item {\bf Inter-person and intra-person disagreement}
+    The scarcity problem is compounded by the the fact that different people, given the same example, will generate different labels. Moreover, even the same person will give different labels at different times. 
+    \item {\bf Training and Test data come from different distributions} Most learning algorithms make the assumption that the training set and the test set are drawn IID~\footnote{Data is IID (Identically and Independently Distributed) if it can be modeled as independent draws from a fixed distribution.}. However, real-world data is typically an agglomeration of different distributions. brain to brain variation is much larger than 
+    within brain variation. 
+\end{enumerate}
+
+Our system is based on a combination of diffusion maps~\cite{} and Adaboost~\cite{}. We address each of the three problems above in turn.
+
+\subsubsection{Old stuff}
+In order to create robust classifiers, that do not need
 to be retrained on each brain, we need a learning algorithm that
 identifies robust patterns that are preserved across brains.
 identifies patterns that are consistent across significant variations
