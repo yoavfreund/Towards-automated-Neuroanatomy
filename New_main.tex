@@ -33,7 +33,8 @@
 \renewcommand\floatpagefraction{.99}
 \renewcommand\topfraction{.99}
 \renewcommand\bottomfraction{.99}
-\renewcommand\textfraction{.1}   
+\renewcommand\textfraction{.1}
+
 \setcounter{totalnumber}{50}
 \setcounter{topnumber}{50}
 \setcounter{bottomnumber}{50}
@@ -227,6 +228,11 @@ many features are proposed, but only few are used in the final detector.
 We use a very similar design to that of Viola and Jones. We use a 2D
 detector to identify marked cells and a 3D detector to identify the 3D
 location of a structure in a sectioned brain.
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{figures/Diffusionmap.png}
+  \caption{{\bf Alignment of diffusion mappings:}  A  presents the similar original cell clouds in diffusion mappings of two brains using different modalities. After transformation, the two cell clouds matched well as shown in B. We marked the three corners of aligned mappings and gave details of these three regions in C, D and E.
+}
+\end{figure}
 
 \subsubsection{Cell based analysis}
 
@@ -253,30 +259,59 @@ features that are based on the shapes of individual cells.
 \section{Results}
 
 \subsection{Detecting Structures}
-% \begin{wrapfigure}{R}{0.4\textwidth}
-\begin{figure}
- \includegraphics[width=\textwidth]{figures/ScoresOfStructures.png}
+
+\subsubsection{Adaptive Cell shape parametrization} Uses a combination of Hu moments and dimensionality reduction using eigen-maps.
+Eigen-maps learn a dimensionality reducing mapping cell shape to a ten dimensional representation.
+As it is an unsupervised method it requires no human labeling. We take advantage of the very large number of cells in single brain. 
+
+\subsubsection{Structure detection accuracy}
+In figure~(\ref{fig:structureAccuracy}) we show the error of our
+detector as a function of the detection confidence. 
+\begin{figure}[t]
+  \includegraphics[width=0.65
+  \textwidth]{figures/ErrorVsConfidence.png}
+  \hspace{1cm}
+  \includegraphics[width=0.25\textwidth]{figures/ScoresOfStructures.png}
+  \caption{\label{fig:structureAccuracy} {\bf Evaluation of detection
+      accuracy:} A shows the relationship between detection confidence
+    and the detection error relative to human annotation.}
 \end{figure}
 
-\begin{itemize}
-    \item Detection results, with confidence levels, consistency with Beth.
-    \yoav{A lot of stuff here. Detection accuracy and confidence table, full table will probably go in the appendix, the figure of improvement. Relationship between beth, rough alignment and detection.}
-    \item {\bf Explaining detections} The explanation of the detection is expressed in terms of cells whose shape gives evidence to the structure.
-    \yoav{Put here an image consisting of 2/3 detection explanations to show the explanation power. Specifically, there is a structure we detect well even though in different brains the contrast and brightness are very different}
-\item {\bf Cell shape parametrization} Uses a combination of Hu moments and dimensionality reduction using eigen-maps.
-\begin{itemize}
-    \item Eigen-maps learn a dimensionality reducing mapping cell shape to a ten dimensional representation.
-    As it is an unsupervised method it requires no human labeling. We take advantage of the very large number of cells in single brain. 
-    \item Each brain creates a different mapping, however, the mappings can be made consistent by adding a linear transformation. This creates a stable parametrization and makes the detections more consistent.\yoav{scatter-plots of cell images. after transformation. Figure explaining transformation.}
-\end{itemize}
-\end{itemize}
+\begin{figure}[b]
+  \includegraphics[width=\textwidth]{figures/DetectionExplanation.png}
+  \caption{\label{fig:explaining} {\bf explaining detections:} visual explanations for the
+    detection of 6N\_L in two brains. A and B are brain images of two
+    brains at section z=0, marking the locations of 6N\_L with blue
+    contours and showing cell distributions of the top 3 important
+    features for regions inside and outside the contours.  The cells
+    come from three sections, 100 microns apart. The red marked cells
+    are evidence of the inside of the structure, the green cells,
+    which are much smaller, are evidence of the outside. Note that
+    section z=5 has very few cells. The detector overcomes this by
+    combining information from all sections.  The bottom brain is
+    stained darker than the top one, which is likely to confuse a
+    method that is not cell based.}
+  \end{figure}
+
+\subsubsection{Explaining detections}
+For each detection we generate an explanation. The explanation
+consists of an annotated image in which cells that are typical of the
+structure and cells that are typical of the region outside the
+structure are highlighted. Figure~(\ref{fig:explaining}.)
+
 
 \subsection{Detecting marked cells}
 
-William to put the {\em latest} table here. and write a detailed
-explanation of the table.
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{figures/MarkedCellsDetectionNumbers.png}
+\end{figure}
 
-To discuss:
+\begin{figure}[b]
+  \includegraphics[width=\textwidth]{figures/Marked_cell_detections.png}
+  \caption{}
+\end{figure}
+
+\iffalse
 \begin{itemize}
 \item The amount of manual work that it takes to manually mark cells.
 \item inter-rater and intra-rater disagreement rate.
@@ -284,11 +319,14 @@ To discuss:
   detections detection".
 \item How to quantify reduced mental load of QA vs detection.
 \end{itemize}
-
-
+\fi
+\newpage
 
 \section{Methods}
-% \begin{wrapfigure}{R}{0.65\textwidth}
+
+\subsection{Structure Detection}
+
+\iffalse
 \begin{figure}[t]
   \includegraphics[width=\textwidth]{figures/detection.pdf}
   \caption{Detecton \label{fig:detection}}
@@ -298,18 +336,29 @@ To discuss:
   \includegraphics[width=\textwidth]{figures/Training.pdf}
   \caption{Training \label{fig:training}}
 \end{figure}
+\fi
 
-The overall design of the system is shown in Figure xxx. The system can be partitioned into two parts. The training algorithm and the trained detector.
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{figures/architecture.pdf}
+  \caption{System architecture \label{fig:architecture}}
+\end{figure}
 
-\subsection{System Inputs}
+The design of the structure detector system is described in Figure~\ref{fig:architecture}.
+The system consists of two subsystems: the structure detector whose
+function is to determine the location os brain structure, and the ML
+subsystem which uses machine learning to create the structure detector.
+
+The subsystems are further devided into components, so of which
+are common to the two subsystems. We describe each of those components
+in turn.
+
+%\subsection{System Inputs}
 To train the detectors we combine three sources of information:
 \begin{itemize}
     \item {\bf Images of aligned sections:} The Nissl images of XX brains are the primary information source. They are also by far the largest at XXX GB per brain.
     \item {\bf The Atlas} is a representation of the shape of each structure and the relative locations of the structures. The atlas was constructed through a concensus ....
     \item {\bf COMs for individual brains:} For XX brains we had an anatomist locate the COM ....
 \end{itemize}
-
-\subsection{System components}
 
 \begin{enumerate}
 \item{\bf Cell extraction and shape parametrization}
@@ -325,7 +374,7 @@ An image of a single cell is typically around 50$\times$50 pixels, or a 2500 dim
       graphs.
       \end{enumerate}
 \end{enumerate}
-      \subsubsection{ Characterizing Cytoarchitecture} uses Difference between the CDFs for inside and outside of each structure (based on manually annotated structure boundaries). 
+\subsubsection{ Characterizing Cytoarchitecture} uses Difference between the CDFs for inside and outside of each structure (based on manually annotated structure boundaries). 
 \subsubsection { Structure detectors} Combine the difference-of-CDF
 features using boosted trees (XGBoost). Each structure has a
 corresponding detector.
@@ -356,45 +405,6 @@ which is based on cells as the basic unit. Doing so provides an explanation for 
  \bibliographystyle{splncs04}
  \bibliography{Reference,bib}
 
-\appendix
-\section{Unplaced figures}
-
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{figures/DetectionPerformance.png}
-  \caption{{\bf Evaluation of detection performance:}  A  shows the relationship between detection confidence and detection error relative to human. The detection confidence was divided  into  4 levels based on A. Then we compared the error of rough alignment to the error of detection in B and C.
-}
-\end{figure}
-
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{figures/DetectionExplanation.png}
-  \caption{{\bf explaining detections:} visual explanations for the
-    detection of 6N\_L in two brains. A and B are brain images of two
-    brains at section z=0, marking the locations of 6N\_L with blue
-    contours and showing cell distributions of the top 3 important
-    features for regions inside and outside the contours.  The cells
-    come from three sections, 100 microns apart. The red marked cells
-    are evidence of the inside of the structure, the green cells,
-    which are much smaller, are evidence of the outside. Note that
-    section z=5 has very few cells. The detector overcomes this by
-    combining information from all sections.  The bottom brain is
-    stained darker than the top one, which is likely to confuse a
-    method that is not cell based.}
-  \end{figure}
-
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{figures/Diffusionmap.png}
-  \caption{{\bf Alignment of diffusion mappings:}  A  presents the similar original cell clouds in diffusion mappings of two brains using different modalities. After transformation, the two cell clouds matched well as shown in B. We marked the three corners of aligned mappings and gave details of these three regions in C, D and E.
-}
-\end{figure}
-
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{figures/MarkedCellsDetectionNumbers.png}
-\end{figure}
-
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{figures/Marked_cell_detections.png}
-  \caption{}
-\end{figure}
 
 
 \end{document}
