@@ -1,5 +1,6 @@
-\documentclass[runningheads]{llncs}
-\usepackage[utf8]{inputenc}
+% \documentclass[runningheads]{llncs}
+\documentclass[11pt]{article}
+%\usepackage[utf8]{inputenc}
 
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -18,6 +19,14 @@
 
 \setlength{\parskip}{0cm}
 \setlength{\parindent}{1em} 
+
+\addtolength{\oddsidemargin}{-.875in}
+\addtolength{\evensidemargin}{-.875in}
+\addtolength{\textwidth}{1.75in}
+
+\addtolength{\topmargin}{-.875in}
+\addtolength{\textheight}{1.75in}
+
 
 \newcommand{\reals}{\mathbb{R}}
 
@@ -231,11 +240,6 @@ many features are proposed, but only few are used in the final detector.
 We use a very similar design to that of Viola and Jones. We use a 2D
 detector to identify marked cells and a 3D detector to identify the 3D
 location of a structure in a sectioned brain.
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{figures/Diffusionmap.png}
-  \caption{{\bf Alignment of diffusion mappings:}  A  presents the similar original cell clouds in diffusion mappings of two brains using different modalities. After transformation, the two cell clouds matched well as shown in B. We marked the three corners of aligned mappings and gave details of these three regions in C, D and E.
-}
-\end{figure}
 
 \subsubsection{Cell based analysis}
 
@@ -261,29 +265,91 @@ features that are based on the shapes of individual cells.
 
 \section{Results}
 
-\subsection{Detecting Structures}
+We present results from two detection systems. The first is for detecting known
+brain structures. The second is for detecting marked cells. 
 
-\subsubsection{Adaptive Cell shape parametrization}
-Uses a combination of Hu moments and dimensionality reduction using
-eigen-maps.  Eigen-maps learn a dimensionality reducing mapping cell
-shape to a ten dimensional representation.  As it is an unsupervised
-method it requires no human labeling. We take advantage of the very
-large number of cells in single brain.
-
-\subsubsection{Structure detection accuracy}
-In figure~(\ref{fig:structureAccuracy}) we show the error of our
-detector as a function of the detection confidence. 
 \begin{figure}[t]
-  \includegraphics[width=0.65
-  \textwidth]{figures/ErrorVsConfidence.png}
-  \hspace{1cm}
-  \includegraphics[width=0.25\textwidth]{figures/ScoresOfStructures.png}
-  \caption{\label{fig:structureAccuracy} {\bf Evaluation of detection
-      accuracy:} A shows the relationship between detection confidence
-    and the detection error relative to human annotation.}
+  \includegraphics[width=\textwidth]{figures/detection.pdf}
+  \caption{\label{fig:detector} {\bf Dataflow of the structure
+      detector} (terms that are underlined are described in more
+    detail in the methods section.) {\bf (a)} The input to the detector
+    is a sequence of sections from a whole brain. The red square
+    indicates the search area which is defined using rough
+    alignment. {\bf (b)} the 3D shape of the structure is {\em
+      extracted from manual annotations},
+    shifting this shape defines which cells are in the structure and
+    which are outside. {\bf (c)} The cells from the whole brain are
+    extracted. {\bf (d)} For each extracted cell we compute a set of
+    {\em shape descriptors}, forming the per-cell feature vector. {\bf (e)}
+    The shifted shapes from step (b) partition the cells into those
+    that are inside the structure and those that are close to the
+    structure but outside it. {\bf (f)} using the features of these
+    sets of cells a {\em region-based feature vector} is
+    computed. {\bf (g)} the region-based feature vectors are passed
+    through a {\em learned detection function} which outputs a
+    detection score. {\bf (h)} the detection scores are organized in
+    a {\em detection map}. From which two quantities are extracted:
+    {\bf (i)} the detection location and {\bf (j)} the {\em detection
+      confidence}. {\bf (k)} In addition, the system generates, based on the
+    region feature vector and detection function, and {\em detection
+      explanation}}
 \end{figure}
 
-\begin{figure}[b]
+\subsection{Detecting Structures}
+The architecture of our structure detectors is described in
+Figure~(\ref{fig:detector}). For each structure we have a separate
+boundary shape, inferred from human annotations, and a learned
+detection function that is learned from human annotations of the
+location of the center of mass of the structures in particular
+brains. The details of the learning process is described in the
+methods section.
+
+Detection is done in two steps. In the first, called ``rough
+alignment'' we use an industry standard image based alignment method
+to find approximate locations of the structures. The second step,
+called the ``detection step'', is to apply each structure detector
+at gridpoints every XX $\mu m$ up to distance of YY $\mu m $ from the
+location of the rough detection. The result is a score map. Two
+quantities are calculated from the score map: the most likely location
+of the structure COM and the confidence level of the detection.
+
+Figure~(\ref{fig:structureAccuracy}(a)) depicts the accuracy of the
+detector, relative to a manual detection, for different confidence
+levels. Figure (\ref{fig:structureAccuracy}(b)) compares the accuracy
+of rough alignment to the accuracy of the detector. Note that most of
+the detections are above the diagonal line, indicating that the
+detections improve over the rough alignments. This trend is stronger
+the higher the confidence level.
+
+\begin{figure}[t]
+  (a) \includegraphics[width=0.45\textwidth]{figures/ErrorVSconfidence.png}
+  \hspace{1cm}
+  (b)\includegraphics[width=0.45\textwidth]{figures/RoughVSdetection.png}
+  \caption{\label{fig:structureAccuracy} {\bf Evaluation of detection
+      accuracy:} {\bf (a)} shows the relationship between detection
+    confidence and the detection error relative to human annotation.
+    {\bf (b)} A comparison of the accuracy achieved by rough alignment
+    to the accuracy achieved using a detector. Points above the
+    diagonal line corresponds to structures for which the error of the
+    detection is smaller.}
+\end{figure}
+
+\begin{figure}[t]
+  \includegraphics[width=0.4\textwidth]{figures/PerBrainStrongDetections.png}
+  \caption{\label{fig:ConfidentStructureHist} {\bf Number of
+      structures with detection confidence > 2000 per brain} is
+    between 5 and 14 per brain. 5/9 brains have more than 10 confident detections.}
+\end{figure}
+
+
+
+\subsubsection{Explaining detections}
+For each detection we generate an explanation. The explanation
+consists of an annotated image in which cells that are typical of the
+structure and cells that are typical of the region outside the
+structure are highlighted. Figure~(\ref{fig:explaining}.)
+
+\begin{figure}[t]
   \includegraphics[width=\textwidth]{figures/DetectionExplanation.png}
   \caption{\label{fig:explaining} {\bf explaining detections:} visual explanations for the
     detection of 6N\_L in two brains. A and B are brain images of two
@@ -298,13 +364,6 @@ detector as a function of the detection confidence.
     stained darker than the top one, which is likely to confuse a
     method that is not cell based.}
   \end{figure}
-
-\subsubsection{Explaining detections}
-For each detection we generate an explanation. The explanation
-consists of an annotated image in which cells that are typical of the
-structure and cells that are typical of the region outside the
-structure are highlighted. Figure~(\ref{fig:explaining}.)
-
 
 \subsection{Detecting marked cells}
 
@@ -332,81 +391,104 @@ structure are highlighted. Figure~(\ref{fig:explaining}.)
 
 \subsection{Structure Detection}
 
-\iffalse
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{figures/detection.pdf}
-  \caption{Detecton \label{fig:detection}}
-\end{figure}
-
 \begin{figure}[t]
   \includegraphics[width=\textwidth]{figures/Training.pdf}
   \caption{Training \label{fig:training}}
 \end{figure}
-\fi
-
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{figures/architecture.pdf}
-  \caption{System architecture \label{fig:architecture}}
-\end{figure}
-
 The design of the structure detector system is described in Figure~\ref{fig:architecture}.
 The system consists of two subsystems: the structure detector whose
 function is to determine the location os brain structure, and the ML
 subsystem which uses machine learning to create the structure detector.
 
-The subsystems are further devided into components, so of which
-are common to the two subsystems. We describe each of those components
-in turn.
-
-%\subsection{System Inputs}
-To train the detectors we combine three sources of information:
+The detectors combine three sources of information:
 \begin{itemize}
     \item {\bf Images of aligned sections:} The Nissl images of XX brains are the primary information source. They are also by far the largest at XXX GB per brain.
-    \item {\bf The Atlas} is a representation of the shape of each structure and the relative locations of the structures. The atlas was constructed through a concensus ....
-    \item {\bf COMs for individual brains:} For XX brains we had an anatomist locate the COM ....
+    \item {\bf The Atlas} is a representation of the shape of each
+      structure and the relative locations of the structures. The
+      first step of the shape derivation was for three anatomists to
+      annotate structures in three brains. This was a labor intensive
+      step which took a total of XXX hours. The seccond step involved
+      aligning the annotations from different brains to each other and
+      taking the majority vote over the manual structures.
+    \item {\bf COMs for individual brains:} For 10 brains we had an
+      anatomist locate the the center-of-mass of 26-31 structures in 9
+      brains.~\footnote{DK52 not included because it is used for the
+        rough alignment}
 \end{itemize}
 
-\begin{enumerate}
-\item{\bf Cell extraction and shape parametrization}
-An image of a single cell is typically around 50$\times$50 pixels, or a 2500 dimensional vector. The dimension of this representation is too high for effective machine learning. We therefor seek a dimensionality reduction mapping. This mapping consists of three parts:
-\begin{enumerate}
-    \item {\bf Normalization:} We normalize the image of the cell in three ways. We 
-    shift the grey-levels so that the mean is XXX, scale the grey levels so that the standard deviation is YYY, and rotate the image so that the long axis of the cell is in angle zero. The three parameters associated with the normalizations define three features.
-    \item {\bf Standard shape features}: we use the Hu features: x,y,z...
-    \item{ \bf Diffusion maps}: Diffusion
-      Mapping~\cite{belkin2003,coifman2005geometric} is a non-linear
-      dimensionality reduction method that is based on a graphical
-      representation of the data and on the Laplace operator on
-      graphs.
-      \end{enumerate}
-\end{enumerate}
-\subsubsection{ Characterizing Cytoarchitecture} uses Difference between the CDFs for inside and outside of each structure (based on manually annotated structure boundaries). 
-\subsubsection { Structure detectors} Combine the difference-of-CDF
+Below we describe each component of the system:
+
+\subsubsection{Cell based analysis}
+
+Our system does not use the grey-values of the brain sections
+directly, instad it uses the shapes of the cells. The main advantages
+of this approach are (1) reduced sensitivity to changes in brightness
+and contrast, and (2) the ability to provide meaningful explanations
+for machine detections.
+
+\paragraph{Cell extraction}
+The goal of this step is to extract ``local cell configurations'',
+those include neurons and glia cells. Both single cells and overlapping
+or very close cells are included.
+
+Cell extraction is performed using a locally adaptive threshold,
+followed by normalization. The normalization is done using local
+shift and scale operations whose result if that the local mean is 0
+and the local std is 1. This is followed by thresholding the image at
+value X and computing of connected components. Each connected
+component is rotated so that it's long axis is vertical. The result
+is a square image patch, typically of 50x50 pixels, together with the
+angle of rotation of the long axis.
+
+The quantification of the cell shapes uses a  combination of
+pre-defined and adaptive features. 
+
+\paragraph{Pre-defined cell-shape features}.
+We use the Hu Moment features:
+
+\paragraph{Adaptive Shape Features}
+The Hu features are mathematically elegant and easy to
+compute. However, they are not adapted to images of segmented cells.
+
+To overcome this deficiancy we use an unsupervised learning algorithm
+which generates a dimensionality reducing mapping from cell images to
+a vector describing the shape. The dimensionality reducing method we
+use is {\em Diffusion
+  eigen-maps}~\cite{belkin2003,coifman2005geometric} which is a
+non-linear dimensionality reduction method based on the eigen-decomposition
+of the Laplace-Beltrami operator. Roughly speaking, it is a non-linear
+generalization of Principal Component Analysis.
+
+Figure~(\ref{fig:eigenmap}) shows that eigen-vectors identified by this method capture intuitive
+properties of the cell shape such as size and roundness. In addition,
+the method captures the short sequence  of glia cells (do these sequences
+have a name?).
+
+The eigen-vector representation is robust against brain to brain
+variability as well as variability due to differences in imaging
+modality.
+
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{figures/Diffusionmap.png}
+  \caption{\label{fig:eigenmap}{\bf Alignment of diffusion mappings:} A presents the
+    similar original cell clouds in diffusion mappings of two brains
+    using different modalities. After transformation, the two cell
+    clouds matched well as shown in B. We marked the three corners of
+    aligned mappings and gave details of these three regions in C, D
+    and E.  }
+\end{figure}
+
+\paragraph{Location based feature vector} uses Difference between the CDFs for inside and outside of each structure (based on manually annotated structure boundaries). 
+\paragraph{Detection functions} Combine the difference-of-CDF
 features using boosted trees (XGBoost). Each structure has a
 corresponding detector.
 
-\subsubsection { Structure detection confidence} The confidence of structure
+\paragraph{Structure detection confidence} The confidence of structure
   detections is measured by the prediction margin and by the sharpness
   of the detection peak.
 
-\subsubsection { Structure detection explanation}
+\paragraph{ Structure detection explanation}
 
-\iffalse
-which is based on cells as the basic unit. Doing so provides an explanation for the detector's decision. We use unsupervised learning to find a dimensionality reducing mapping for cell shapes. We make efficient use of manual annotations by estimating the shape of each structure from a few brains and anatomists. We leverage this information in the detector training by having the anatomist identify the location of the center of mass for each structure.
-\fi
-
-
-\begin{itemize}
-\item Cell based features.
-\item Diffusion mapping.
-\item Calibration of the diffusion features.
-\item Region features and CDFs.
-\item Boosting and XGBoost.
-\item Localizing structures. Rough alignment, computing detections
-  scores, computing autocorrelation and asigning confidence.
-\item Using the system for brain-to-atlas alignment.
-\item Generating explanations.
-\end{itemize}
 
  \bibliographystyle{splncs04}
  \bibliography{Reference,bib}
