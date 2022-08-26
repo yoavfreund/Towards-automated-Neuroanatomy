@@ -61,27 +61,21 @@
   A fundamental goal of neuroanatomy is the annotation of cells and
   structures.  Manual annotation of structures is based on the spatial
   distribution of cell shape, size, orientation and density.  New
-  technology rapid imaging of entire brains at high resolution.
-  However, manual identification of structures in these massive
-  datasets is prohibitively time consuming.  We present a machine
+  technology is enabling the rapid imaging of entire brains at high
+  resolution. However, manual identification of structures in these massive datasets, as well as the molecular labeling cells based on
+  specific patterns of genetic expression,  is prohibitively
+  time consuming.  We present a machine
   learning methodology for developing digital assistants that
   significantly reduce the labor of the anatomist while improving the
   consistency of the annotation.
 
   Our methodology is based on designing, for each annotation problem,
   a large number of features and using boosting on manually annotated
-  images to select the most predictive features.
-
-  We describe two annotation tasks to which we applied this approach.
-  The first, more complex task is detecting specific structures in the
-  brainstem of the mouse. The second is the detection of individual cells marked
-  by a fluorescent dye. We provide the details of both of these
-  applications and show that they significantly reduce the anatomist's
-  labor in completing these tasks.
+  images to select the most predictive features. We describe two annotation tasks to which we applied this approach. The first, more complex task is detecting specific structures in the brainstem of the mouse. The second is the detection of individual cells marked by a fluorescent indicator. We provide the details of both of these applications and show that they significantly reduce the anatomist's labor in completing these tasks.
   
   %We translate each cell image into a feature vector that
   %includes aspect ratio, orientation and area, as well as additional
-  %features derived using a graph Laplacian. The algorithm uses the
+  %features derived using a graph Laplacian. The algorithm uses thehttps://www.overleaf.com/project/626c35fc11c79a37dffd2ffc
   %statistical distribution of these features vectors to identify brain
   %structures.
 \end{abstract}
@@ -94,34 +88,39 @@ each structure. Each detection is assigned a confidence. High
 confidence structures are associated with a visual explanation.
 
 \subsubsection {Significance for Neuroscience}
-~\\ ~\\
-{\bf David and Beth, please expand on the following bullets:}
-\begin{itemize}
-\item What is Neuroanatomy?
-\item Why is Neuroanatomy important (in the context of the great
-    advancements in imaging and recording technology)
-\item Why is Neuroanatomy hard? (requires a lot of training, the
-  number of trained neuroanatomist is small.)
-\item An estimate of the amount of manual labor required to achieve
-  common tasks.
-\item The importance of computer generated confidence and explanations.
-\end{itemize}
 
-% Manual neuroanatomical analysis of brain sections is critical for
-% creating accurate quantitative results. On the other hand, performing
-% neuroanatomical analysis is expensive as it requires many hours of
-% work of an expert anatomist.
+%\yoav{I would start with something intended to a broader audience, with little or no familiarity with sections/stains/structures, and say what is the significance *of* neuroanatomy, before saying what the significance of our methods *for* neuroanatomy. Something along the lines of: Big data technology for neuroscience has been advancing by leaps and boundsover the past decades. It is now possible to simultanuously record the activity of XXX neurons, use mathilation tags (?) to identify different types of neurons...
+How do we study the computational power of brains? Brains are composed of circuits that have multiple scales of organization, the microscopic-scale of connections between neurons, i.e., one to ten micrometers, the mesoscopic-scale of collections of neurons with similar functionality, i.e., hundred of micrometers to millimeters. Molecular  tagging of neuronal cell types by the expression of genetically encoded reporters and light-level imaging of the cells and tags, using both transmission and fluorescent microscopy, plays an essential role in this process. The resulting raw data files are extremely large, from 1 to 100 TB per rodent brain. The current means for quantification and spatial mapping of tagged neuronal populations in brain sections require labor intensive annotation by expert neuroanatomists. How can machine learning assist with this process and minimize the amount of manual work involved while maintaining accuracy and consistency.
 
-We consider two labor intensive tasks. Localizing anatomical structure
-and counting marked cells. Both tasks involve identifying and marking
-locations in images and both require expertise.
+%Further, how can machine learning assist neuroscientists is to combine experimental results from the brains of different animals.
 
-A rather obvious but important observation is that while a typical
-section will contain hard to identify locations, most of the locations
-are easy, in the sense that a person with lesser traing can identify
-them reliably.
+%Neuroanatomical observations depend on mapping data from images, obtained as consecutive planar sections, to reference brains.
+%This presents a number of challenges. In many cases the individual sections may carry distortions, and further need to be aligned to form a three-dimensional representation of a brain. The second challenge is the identification of brain structures. Classically, this relies on the use of a stain, i.e., a labels that marks a restricted part of the brain cells and allows both individual cells and clusters of like cells to be identified. This is an art form
+% \yoav{ Instead of "art form" I would say "requires significant expertise and many hours of work". I would also say something about the need to create work-flows that combine less expert annotators (Julian and Marissa) and more expert annotators (Beth) to achieve the required throughput with sufficient accuracy.} , as different stains highlight different organelles of brain cells and different sectioning techniques reveal yield seemhttps://www.overleaf.com/project/626c35fc11c79a37dffd2ffcingly different textures in the organization of neurons. Currently, human scanning is used to find the best match of a given structure, from the subject brain, to an annotated reference brain atlas. This match to sample approach does not readily support assessment of observational differences between laboratories nor provide a means for assessing and compensating for common systematic errors.
+% Critically, human observers do not provide a path toward either understanding of critical features that define a structure nor a means toward automation.
+% \yoav{ I don't understand the last sentence. In my mind, it is a question of resources. My assumption is that the "ground truth" is achievable by an expert anatomist spending sufficient time. What we are attempting to do is (1) save anatomist time (2) allow less expert anatomist to do the task (3) provide meaningful confidence levels and (4) provide explanations for the confident predictions.}
 
-This observation leads to the following approach to automation. We
+Machine learning methods, mostly based on Neural Network (NN), have been used to automate brain section analysis~\cite{}. However, as NN models are black boxes that define input-output relationships, the models provide no insight as to how decision are made. Nor do NNs give a measure of confidence. It is thus very hard for a neuroanatomist to understand {\em why} the NN made particular decisions. In this paper we present an alternative approach with models that operate in a way more similar to the neuroanatomist and that generates outputs which the neuroanatomist can interpret and correct.
+
+The models generated by the methods described in this paper have three advantages over models generated. First, the basic units of analysis are cells, not pixels. Second, a confidence level is computed for each detection, based on an ensemble of models. Finally, confident detections are associated with a visual explanation that can be used as feedback to the neuroanatomist.
+
+The goal of the first method is to assist in the detection of tagged cells. The model is designed to report two confidence levels, i.e., sure and unsure. The anatomist need only sample the sures for quality assurance and label any false positives.  In contrast, the anatomist needs to check every unsure, yet this population is relatively small so that, overall, the methods provides a substantial savings in time.
+
+The goal of the second method is to localize brain structures, such as motor or premotor nuclei in the brainstem. We focus on centroids to provide objective sign posts for rapid human verification of brain structure position. Our models make use of cell shape, orientation, density as well as more abstract quantities and boundaries of the structures. In addition to the three dimensional location of each structure, the model generates a meassure of confidence to offsets in any direction. In addition, the model generates a visual explanation for the localization in terms of cell features.
+
+% Manual neuroanatomical analysis of brain sections is critical for creating accurate quantitative results. On the other hand, performing neuroanatomical analysis is expensive as it requires many hours of work of an expert anatomist.
+
+% We consider two labor intensive tasks. Localizing anatomical structure and counting marked cells. Both tasks involve identifying and marking locations in images and both require expertise.
+
+\subsubsection{Our data sets}
+
+We use mouse brains that are serially sectioned and counterstained with one fluorescent tag to reveal all brain cells.  In addition, specific cell types are labeled with a second, different fluorescent tag. This results in a dual tagging approach where all cells are labeled by an inexpensive counterstain and a subset of interest is labeled by a second experimentally incorporated fluorophore. This has the advantage of narrowing the population of false detections as labeled neurons undergo a two-factor authentication scheme. 
+
+
+\subsubsection{Our approach}
+
+\yoav{This is currently only about marked cells, there is more to say about structure detection. I would include: cell-based analysis, confidence quantification and detection explanation.}
+An important observation on locating both structures and cells is that while a typical section will contain hard to identify features and locations, most of the identifications are easy. This observation leads to the following approach to automation. We
 use so-called {\em confidence rated detectors}. These detectors
 associate with each detection a confidence score. A high confidence
 score implies that the example is ``easy''  while the rest are
@@ -487,6 +486,17 @@ corresponding detector.
   of the detection peak.
 
 \paragraph{ Structure detection explanation}
+
+\section{DISCUSSION}
+
+A challenge for extant methods \yoav{What are extant methods?} is the identification of brain structures. Classically, this relies on the use of a stain, i.e., a labels that marks a restricted part of the brain cells and allows both individual cells and clusters of like cells to be identified. In many cases the individual sections may carry distortions, and further need to be aligned to form a three-dimensional representation of a brain. Currently, human scanning is used to find the best match of a given structure, from the subject brain, to an annotated reference brain atlas. This match-to-sample approach does not readily support assessment of observational differences between laboratories nor provide a means for assessing and compensating for common systematic errors. An extended ML approach would support a mechanism for ML “self-annotation” of structures in sections. The output tag of a structure would be readily proof-read by human observation. Importantly, the curated set of output tags could serve as an objective set of fiducials. Fiducials are needed for alignment to other atlases, such as the Allen Atlas but there is no standardized method for fiducial selection.
+
+This annotation allows tags cells to be placed into a common reference space so that the spatial distributions of functionally identified cells can be compared. This ML based tool supports detection of the 3d centroids of brain structures in serially sectioned counterstained mouse brains. The ML structure detectors essentially perform ML self-annotation of brain structures which can be used as fiducials for a more systematic registration of experimental brains into the widely accepted common reference space, the Allen Atlas. ML supported registration of brains to a common reference space, in turn allows co-display of ML labeled neuron data from different experimental brains.
+
+A synergy of our ML cell and ML fiducial detection can support combining data  to common reference space. The ML detected labeled neurons are in the same brain stack as the ML detected landmarks and can be exported in a tethered fashion to new reference spaces. Thus our new algorithms provide assistance for the persistent challenge of combining connectomic data from different experimental brains into a common reference space. This will allow 3d comparisons of connectomic brain labeling data to help provide metrics for biological and for technical variability that underpins these studies. 
+
+The central motivation of the work presented here is to develop tools to leverage human expertise rather than attempt to replace it; leveraging demands the use of ML methods that support meaningful confidence levels and can provide explanations for these confident predictions.
+
 
 
 
