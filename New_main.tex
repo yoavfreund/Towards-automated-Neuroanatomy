@@ -6,7 +6,8 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{arydshln}
-\usepackage{xcolor,ulem}
+\usepackage{ulem}
+\usepackage[table,xcdraw]{xcolor}
 
 \usepackage{wrapfig}
 
@@ -16,6 +17,7 @@
 % If you use the hyperref package, please uncomment the following line
 % to display URLs in blue roman font according to Springer's eBook style:
 % \renewcommand\UrlFont{\color{blue}\rmfamily}
+
 
 \setlength{\parskip}{0cm}
 \setlength{\parindent}{1em} 
@@ -119,23 +121,36 @@ We use mouse brains that are serially sectioned and counterstained with one fluo
 
 \subsubsection{Our approach}
 
-\yoav{This is currently only about marked cells, there is more to say about structure detection. I would include: cell-based analysis, confidence quantification and detection explanation.}
-An important observation on locating both structures and cells is that while a typical section will contain hard to identify features and locations, most of the identifications are easy. This observation leads to the following approach to automation. We
-use so-called {\em confidence rated detectors}. These detectors
-associate with each detection a confidence score. A high confidence
-score implies that the example is ``easy''  while the rest are
-``hard''. This reduces the workload on the anatomist to the following
-tasks:
-\begin{itemize}
-  \item {\bf Confirming the confident detections} In this step the
-    anatomist recieves a small sample of the confident detections and
-    verifies that they are correct. The sample size depends on the
-    desired accuracy.
-    \item {\bf classifiying the unconfident detections} In this step
-      the anatomist labels {\em all} of the low confident predictions.
-    \item {\bf searching for misses:} In this step the anatomist looks
-      for locations that were completely missed by te detector.
-  \end{itemize}
+
+An important observation on locating both structures and marked cells
+is that while a typical section will contain some hard to identify
+features and locations, most of the identifications are relatively
+easy. This observation supports our approach which uses the computer as
+to assist, rather than replace the human anatomist. We
+use {\em confidence rated detectors}. These detectors
+associate with each detection a confidence score. High confidence
+detections are labeled by the computer while low condidence detections
+are passed on to the human anatomist.
+
+We compare the amount of work of the anatomist when unaided to the
+amount of work when aided by confidence rated detections.
+When using an accurate and confident detection system the work of the
+anatomist reduces to the following components
+\begin{enumerate}
+\item {\bf Performing Quality assurance on confident detections} In this step the
+  anatomist recieves a small sample of the confident detections and
+  verifies that they are correct. The sample size depends on the
+  desired accuracy.
+\item {\bf searching for misses:} In this step the anatomist looks
+  for locations that were completely missed by te detector.
+\item {\bf classifiying the unconfident detections} In this step
+  the anatomist labels {\em all} of the low confident predictions.
+  \end{enumerate}
+Steps 1 and 2 are based on samples and are therefor relatively light.
+Most of the work of the anatomist is in step 3. We call the ratio
+between the unconfident detection and the confident detections the 
+``effective work ratio''. When the effective work ration is small the
+savings in manual work is large.
   
 \subsubsection{Assistive AI} Traditionally, the goal of artificial
   intelligence is to design algorithms which mimic human behavior. AI
@@ -263,8 +278,17 @@ features that are based on the shapes of individual cells.
 
 \section{Results}
 
-We present results from two detection systems. The first is for detecting known
-brain structures. The second is for detecting marked cells. 
+We present results from two detection systems. The first is for
+detecting marked cells. The second is for detecting known
+brain structures. 
+
+\subsection{Detecting marked cells}
+The task we are focused on is ....
+The methods described here can be used for many other cell marking
+tasks, either as is, if the image of a detection is similar enough, or
+after retraining using some human labeling.
+
+\input{tables}
 
 \begin{figure}[t]
   \includegraphics[width=\textwidth]{figures/detection.pdf}
