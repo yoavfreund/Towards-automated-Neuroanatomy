@@ -119,10 +119,59 @@ The goal of the second method is to localize brain structures, such as motor or 
 We use mouse brains that are serially sectioned and counterstained with one fluorescent tag to reveal all brain cells.  In addition, specific cell types are labeled with a second, different fluorescent tag. This results in a dual tagging approach where all cells are labeled by an inexpensive counterstain and a subset of interest is labeled by a second experimentally incorporated fluorophore. This has the advantage of narrowing the population of false detections as labeled neurons undergo a two-factor authentication scheme. 
 
 
-\subsubsection{Our approach}
+\subsubsection{Allowing the computer to say ``I don't know''}}
+
+When applying machine learning methods to real world problems a common 
+expectation is that, with a sufficiently large training set, the
+machine would have higher accuracy than a human expert. To measure
+accuracy we need access to the so-called {\em ground truth}. In the
+context of neuroanatomy it is sometimes possible to use a special
+stain to evaluate the ground truth. However, in many cases the ground
+truth is based on human judgement, and humans sometimes disagree. When
+humans assign different labels to an example we cannot say whether the
+computer prediction is correct or not. If the disagreement between
+human raters is significant, it becomes hard to claim that the
+computer is more accurate than the human.
+
+\cite{Conformal} offers a way out. To the two labels of a binary prediction
+$0,1$ we add a third label called ``I don't know'' indicated by
+``?''. When evaluating the prediction we consider two quantities: the
+fraction of times that the prediction is ``?'' which we call the
+abstention rate, and the fraction of the non-abstentions that are
+wrong, which we call the error rate.
 
 
-An important observation on locating both structures and marked cells
+The level of agreement between human labelers is studied in
+inter-rater and intra-rater experiments~\cite{}. Inter-rater agreement
+measures the rate of agreement between different human
+labelers. Intra-rater agreement measures the rate of agreement between
+labels chosen by the same labeler at different times.  A common way to
+quantify the of the agreement between two raters is the Cohen's
+$\kappa$ (kappa) coefficient~\cite{mchugh2012interrater}~\footnote{ ,
+  $\kappa$ is computed from two more basic quantities: $0\leq a\leq 1$ is
+  the fraction of cases on which the two raters agree, and
+  $0\leq c\leq 1$ is the fraction of agreements that would occur by
+  chance if the two raters are statistically independent.
+  The definition of kappa is $\kappa=\frac{a-c}{1-c}$.
+
+  If $\kappa=1$, The raters always agree, if $\kappa=0$ the rate of
+  agreement corresponds to chance, and if $\kappa<0$ then the rate of
+  agreement is lower than chance, i.e. the two raters tend to have
+  different opinion. An interpretation of $\kappa$ recommended by
+  Cohen \cite{mchugh2012interrater} is: $\kappa\leq 0$: no agreement,
+  $0< \kappa\leq 0.20$: none to slight agreement,
+  $0.2<\kappa\leq 0.40$: fair agreement, $0.4<\kappa\leq 0.60$:
+  moderate agreement, $0.6<\kappa\leq 0.80$: substantial agreement,
+  and $0.8<\kappa\leq 1.00$: perfect agreement.}
+
+Some values of $\kappa$ quoted in the inter-rater agreement literature
+for tasks similar to ours include.....
+
+
+
+
+
+  An important observation on locating both structures and marked cells
 is that while a typical section will contain some hard to identify
 features and locations, most of the identifications are relatively
 easy. This observation supports our approach which uses the computer as

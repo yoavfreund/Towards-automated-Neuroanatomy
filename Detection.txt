@@ -1,0 +1,15 @@
+
+Our detector consists of a simple candidate detector followed by a
+learned classifier that destinguishes cells from non-cells. The
+candidate detector operates on the fluorescent marker. It performs a
+local normalization of contrast and brightness followed by a threshold
+and connected component detection. Each connected component is paired
+with the corresponding region in the (neurotrace blue?). These pairs
+are called "candidates". Each candidate is transformed into a feature
+vector using a set of image analysis functions. A training set
+is collected consisting of candidates and corresponding human selected
+labels (marked cell / not marked cell). This training set is used as
+input to XGBoost. An ensemble of 30 classifiers is generated using
+different random seeds. The ensemble is used to partition new
+candidates into "sure", "unsure" and "negative". Where "sure" are at
+least 90% marked cells, and "unsure" have 50% or lower marked cells.
