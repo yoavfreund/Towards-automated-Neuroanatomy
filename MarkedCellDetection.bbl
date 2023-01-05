@@ -1,0 +1,30 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{FreundSc97}
+Freund, Y., Schapire, R.E.: A decision-theoretic generalization of on-line
+  learning and an application to boosting. Journal of Computer and System
+  Sciences  \textbf{55}(1),  119--139 (Aug 1997)
+
+\bibitem{schapire2013boosting}
+Schapire, R.E., Freund, Y.: Boosting: Foundations and algorithms. Emerald Group
+  Publishing Limited (2013)
+
+\bibitem{SchapireFrBaLe98}
+Schapire, R.E., Freund, Y., Bartlett, P., Lee, W.S.: Boosting the margin: A new
+  explanation for the effectiveness of voting methods. The Annals of Statistics
+   \textbf{26}(5),  1651--1686 (October 1998)
+
+\bibitem{silver2017mastering}
+Silver, D., Schrittwieser, J., Simonyan, K., Antonoglou, I., Huang, A., Guez,
+  A., Hubert, T., Baker, L., Lai, M., Bolton, A., et~al.: Mastering the game of
+  go without human knowledge. nature  \textbf{550}(7676),  354--359 (2017)
+
+\bibitem{violajones01}
+Viola, P., Jones, M.: Rapid object detection using a boosted cascade of simple
+  features. Computer Vision and Pattern Recognition  \textbf{1},  511--518
+  (2001)
+
+\end{thebibliography}

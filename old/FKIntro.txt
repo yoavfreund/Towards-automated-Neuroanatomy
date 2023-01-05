@@ -1,0 +1,74 @@
+Significance for neuroanatomy
+
+YF: --------------------------------
+
+I would start with something intended to a broader audience, with
+little or no familiarity with sections/stains/structures, and say what
+is the significance *of* neuroanatomy, before saying what the
+significance of our methods *for* neuroanatomy.
+
+something along the lines of:
+
+Big data technology for neuroscience has been advancing by leaps and bounds
+over the past decades. It is now possible to simultanuously record the
+activity of XXX neurons, use mathilation tags (?) to identify different
+types of neurons...
+However, a persistent challange is to combine experimental results
+from different brains in different modalities ..... 
+-----------------------------
+
+Neuroanatomical observations depend on mapping data from images,
+obtained as consecutive planar sections, to reference brains.
+
+This
+presents a number of challenges. In many cases the individual sections
+may carry distortions, and further need to be aligned to form a
+three-dimensional representation of a brain. The second challenge is
+the identification of brain structures. Classically, this relies on
+the use of a stain, i.e., a labels that marks a restricted part of the
+brain cells and allows both individual cells and clusters of like
+cells to be identified. This is an art form
+
+YF: -------------------------------
+Instead of "art form" I would say "requires significant
+expertise and many hours of work". I would also say something about
+the need to create work-flows that combine less 
+expert annotators (Julian and Marissa) and more expert annotators
+(Beth) to achieve the required throughput with sufficient accuracy.
+--------------------------------
+
+, as different stains highlight different organelles of brain cells
+and different sectioning techniques reveal yield seemingly different
+textures in the organization of neurons. Currently, human scanning is
+used to find the best match of a given structure, from the subject
+brain, to an annotated reference brain atlas. This match to sample
+approach does not readily support assessment of observational
+differences between laboratories nor provide a means for assessing and
+compensating for common systematic errors.
+
+Critically, human observers
+do not provide a path toward either understanding of critical features
+that define a structure nor a means toward automation.
+
+YF: -------------------------------
+I don't understand the last sentence. In my mind, it is a question
+of resources. My assumption is that the "ground truth" is achievable
+by an expert anatomist spending sufficient time. What we are
+attempting to do is (1) save anatomist time (2) allow less expert
+anatomist to do the task (3) provide meaningful confidence levels and
+(4) provide explanations for the confident predictions.
+---------------------------------
+
+New objective machine learning methods for brain structure recognition
+rely on features related to brain cell geometry and the spatial
+distribution of neighboring. Methods that use machine learning based
+on convolutional neural networks have been shown to work in special
+applications; however, it has not been clear how these learning
+methods work. An alternative ML approach, that we present here, is to
+explicitly utilize a diffusion map of geometrical cell features in
+order to probabilistically identify the centroid of brain structures
+in images stacks from serially sectioned brains.  The centroids
+provide objective sign posts for rapid human verification of brain
+structure position. This approach represents an advance where each
+brain is self-annotated into an observable atlas, as the structure
+identifications are documented within the subject brain images.

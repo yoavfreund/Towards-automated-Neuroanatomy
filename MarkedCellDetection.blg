@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2020)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: MarkedCellDetection.aux
+The style file: splncs04.bst
+Database file #1: Reference.bib
+Database file #2: bib.bib
+Warning--I didn't find a database entry for "general"
+You've used 5 entries,
+            2850 wiz_defined-function locations,
+            841 strings with 12914 characters,
+and the built_in function-call counts, 3403 in all, are:
+= -- 274
+> -- 115
+< -- 8
++ -- 48
+- -- 42
+* -- 233
+:= -- 425
+add.period$ -- 5
+call.type$ -- 5
+change.case$ -- 34
+chr.to.int$ -- 0
+cite$ -- 5
+duplicate$ -- 297
+empty$ -- 291
+format.name$ -- 47
+if$ -- 742
+int.to.chr$ -- 0
+int.to.str$ -- 5
+missing$ -- 59
+newline$ -- 21
+num.names$ -- 10
+pop$ -- 98
+preamble$ -- 1
+purify$ -- 30
+quote$ -- 0
+skip$ -- 95
+stack$ -- 0
+substring$ -- 216
+swap$ -- 187
+text.length$ -- 8
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 18
+warning$ -- 0
+while$ -- 24
+width$ -- 6
+write$ -- 54
+(There was 1 warning)

@@ -1,0 +1,36 @@
+(TeX-add-style-hook
+ "Reference"
+ (lambda ()
+   (LaTeX-add-bibitems
+    "silver2017mastering"
+    "chen2019active"
+    "deng2009imagenet"
+    "krizhevsky2009learning"
+    "chen2016xgboost"
+    "belkin2003"
+    "otsu1979threshold"
+    "arthur2006k"
+    "coifman2005geometric"
+    "freund1996"
+    "mai2015atlas"
+    "xgboost"
+    "hu1962visual"
+    "haghverdi2015diffusion"
+    "franklin2019paxinos"
+    "wang2020allen"
+    "doi2007computer"
+    "gillies2016radiomics"
+    "ali2005automated"
+    "lerch2008automated"
+    "bartlett1998boosting"
+    "wang2018deep"
+    "weiss2016survey"
+    "mchugh2012interrater"
+    "gellhorn2013inter"
+    "bekoe2020inter"
+    "eadie2012systematic"
+    "john1988neurometrics"
+    "pereira2019survey"
+    "dewey2001inter"))
+ '(or :bibtex :latex))
+
